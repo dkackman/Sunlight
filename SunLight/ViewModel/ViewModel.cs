@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 
-namespace SunLight.ViewModel
+namespace Sunlight.ViewModel
 {
     public abstract class ViewModel : ViewModelBase
     {

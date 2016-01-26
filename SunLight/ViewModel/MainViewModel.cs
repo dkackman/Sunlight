@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Windows.System;
 
 using GalaSoft.MvvmLight.Views;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 
-using SunLight.Controls;
-
-namespace SunLight.ViewModel
+namespace Sunlight.ViewModel
 {
     public class MainViewModel : ViewModel
     {
@@ -51,6 +44,10 @@ namespace SunLight.ViewModel
                     Command = new RelayCommand(() => NavigateTo("Settings"))
                 }
             };
+
+            // do this asynchronously on the dispatcher so that the UI is full instantiated
+            // before we attempt to navigate (see comment in NavControl.xaml.cs)
+            DispatcherHelper.RunAsync(() => base.NavigateTo("Home"));
         }
 
         private bool _isNavOpen;

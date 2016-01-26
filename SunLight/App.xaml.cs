@@ -18,9 +18,9 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
 
-using SunLight.Service;
+using Sunlight.Service;
 
-namespace SunLight
+namespace Sunlight
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -87,7 +87,7 @@ namespace SunLight
             Window.Current.Activate();
 
             // TODO - refator this 
-            //var nav = SimpleIoc.Default.GetInstance<INavigationService>() as SunLight.Service.NavigationService;
+            //var nav = SimpleIoc.Default.GetInstance<INavigationService>() as Sunlight.Service.NavigationService;
             //var mainPage = rootFrame.Content as MainPage;
             //nav.Root = mainPage.NavigationRoot;
 

@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Command;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace SunLight
+namespace Sunlight
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -16,13 +16,7 @@ namespace SunLight
         {
             this.InitializeComponent();
 
-            // TODO - refactor this out of here
-            var n = SimpleIoc.Default.GetInstance<INavigationService>() as SunLight.Service.NavigationService;
-            if (n.Root == null)
-            {
-                n.Root = SunLight.Controls.NavControl.NavRoot;
-                n.NavigateTo("Home");
-            }
+
         }
     }
 }

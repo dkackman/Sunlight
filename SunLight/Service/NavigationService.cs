@@ -6,7 +6,7 @@ using Windows.UI.Core;
 
 using GalaSoft.MvvmLight.Views;
 
-namespace SunLight.Service
+namespace Sunlight.Service
 {
     sealed class NavigationService : INavigationService
     {

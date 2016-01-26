@@ -1,22 +1,47 @@
 ﻿<Page
-    x:Class="SunLight.SettingsPage"
+    x:Class="Sunlight.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SunLight"
+    xmlns:local="using:Sunlight"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:i="using:WinRTXamlToolkit.Interactivity"
+    xmlns:controls="using:Sunlight.Controls"
+    mc:Ignorable="d"
+    DataContext="{Binding Settings, Source={StaticResource Locator}}">
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,0,0">
-        <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}"/>
-        <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
-            <AutoSuggestBox PlaceholderText="Find your location" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
-            <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
-        </Grid>
-    </StackPanel>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,0,0">
+
+        <Pivot Title="Settings">
+            <PivotItem Header="General">
+                <StackPanel>
+                    <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <AutoSuggestBox PlaceholderText="Find your location" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
+                        <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
+                    </Grid>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Privacy statement" DataContext="{Binding About, Source={StaticResource Locator}}">
+                <i:Interaction.Behaviors>
+                    <local:HideablePivotItemBehavior Visible="{Binding Model.PrivacyStatement, Converter={StaticResource IsNotNullConverter}}" />
+                </i:Interaction.Behaviors>                
+                <WebView Source="{Binding Model.PrivacyStatement}"/>
+            </PivotItem>
+            <PivotItem Header="Terms of use" DataContext="{Binding About, Source={StaticResource Locator}}">
+                <i:Interaction.Behaviors>
+                    <local:HideablePivotItemBehavior Visible="{Binding Model.TermsOfUse, Converter={StaticResource IsNotNullConverter}}" />
+                </i:Interaction.Behaviors>
+                <WebView Source="{Binding Model.TermsOfUse}"/>
+            </PivotItem>
+            <PivotItem Header="About">
+                <controls:AboutControl DataContext="{Binding About, Source={StaticResource Locator}}"/>
+            </PivotItem>
+        </Pivot>
+        
+    </Grid>
 </Page>
