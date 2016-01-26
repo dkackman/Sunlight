@@ -36,5 +36,7 @@ namespace Sunlight.Model
         public string ProductId => Package.Current.Id.ProductId;
 
         public IEnumerable<Link> Links { get; private set; }
+
+        public IEnumerable<Credit> Credits { get; private set; }
     }
 }

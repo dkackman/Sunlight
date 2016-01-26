@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sunlight.Model
 {
+    public class Credit
+    {
+
+    }
+
     public interface IAbout
     {
         string Name { get; }
@@ -16,5 +21,6 @@ namespace Sunlight.Model
         Uri PrivacyStatement { get; }
         Uri TermsOfUse { get; }
         IEnumerable<Link> Links { get; }
+        IEnumerable<Credit> Credits { get; }
     }
 }

@@ -23,6 +23,42 @@ namespace Sunlight.ViewModel
                     Text = "Home",
                     ButtonText = "\uE80F",
                     Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                                                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                                                                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                                                                                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
+                },
+                                                                                                new NavItem()
+                {
+                    Text = "Home",
+                    ButtonText = "\uE80F",
+                    Command = new RelayCommand(() => NavigateTo("Home"))
                 }
             };
             SecondaryNavItems = new ObservableCollection<NavItem>()

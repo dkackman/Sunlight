@@ -10,38 +10,41 @@
     mc:Ignorable="d"
     DataContext="{Binding Settings, Source={StaticResource Locator}}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="12,0,0,0">
+    <Pivot Title="Settings" Margin="12,0,0,0">
+        <PivotItem Header="General">
+            <StackPanel>
+                <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <AutoSuggestBox PlaceholderText="Zip code" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
+                    <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
+                </Grid>
+            </StackPanel>
+        </PivotItem>
+        <PivotItem Header="Privacy statement" DataContext="{Binding About, Source={StaticResource Locator}}">
+            <i:Interaction.Behaviors>
+                <local:HideablePivotItemBehavior Visible="{Binding Model.PrivacyStatement, Converter={StaticResource IsNotNullConverter}}" />
+            </i:Interaction.Behaviors>
+            <WebView Source="{Binding Model.PrivacyStatement}"/>
+        </PivotItem>
+        <PivotItem Header="Terms of use" DataContext="{Binding About, Source={StaticResource Locator}}">
+            <i:Interaction.Behaviors>
+                <local:HideablePivotItemBehavior Visible="{Binding Model.TermsOfUse, Converter={StaticResource IsNotNullConverter}}" />
+            </i:Interaction.Behaviors>
+            <WebView Source="{Binding Model.TermsOfUse}"/>
+        </PivotItem>
+        <PivotItem Header="Credits" DataContext="{Binding About, Source={StaticResource Locator}}">
+            <i:Interaction.Behaviors>
+                <local:HideablePivotItemBehavior Visible="{Binding Model.Credits, Converter={StaticResource IsNotNullConverter}}" />
+            </i:Interaction.Behaviors>
+            <WebView Source="{Binding Model.Credits}"/>
+        </PivotItem>
+        <PivotItem Header="About">
+            <controls:AboutControl DataContext="{Binding About, Source={StaticResource Locator}}"/>
+        </PivotItem>
+    </Pivot>
 
-        <Pivot Title="Settings">
-            <PivotItem Header="General">
-                <StackPanel>
-                    <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="4*"/>
-                        </Grid.ColumnDefinitions>
-                        <AutoSuggestBox PlaceholderText="Zip code" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
-                        <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
-                    </Grid>
-                </StackPanel>
-            </PivotItem>
-            <PivotItem Header="Privacy statement" DataContext="{Binding About, Source={StaticResource Locator}}">
-                <i:Interaction.Behaviors>
-                    <local:HideablePivotItemBehavior Visible="{Binding Model.PrivacyStatement, Converter={StaticResource IsNotNullConverter}}" />
-                </i:Interaction.Behaviors>                
-                <WebView Source="{Binding Model.PrivacyStatement}"/>
-            </PivotItem>
-            <PivotItem Header="Terms of use" DataContext="{Binding About, Source={StaticResource Locator}}">
-                <i:Interaction.Behaviors>
-                    <local:HideablePivotItemBehavior Visible="{Binding Model.TermsOfUse, Converter={StaticResource IsNotNullConverter}}" />
-                </i:Interaction.Behaviors>
-                <WebView Source="{Binding Model.TermsOfUse}"/>
-            </PivotItem>
-            <PivotItem Header="About">
-                <controls:AboutControl DataContext="{Binding About, Source={StaticResource Locator}}"/>
-            </PivotItem>
-        </Pivot>
-        
-    </Grid>
 </Page>

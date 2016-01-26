@@ -39,26 +39,29 @@
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-
-                <StackPanel VerticalAlignment="Top" Orientation="Vertical" Grid.Row="0">
-                    <Button Content="&#xE700;" x:Name="btnContent" FontFamily="Segoe MDL2 Assets" Width="48" Height="44" 
-                    Command="{Binding ToggleNavCommand}" />
-                    <ListView ItemsSource="{Binding Path=MainNavItems}" ItemTemplate="{StaticResource ButtonItemTemplate}">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                <Setter Property="Margin" Value="0" />
-                                <Setter Property="Padding" Value="0" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                </StackPanel>
-                <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" Grid.Row="1">
-                    <Line VerticalAlignment="Bottom" X1="0" X2="400" Y1="40" Y2="40" StrokeThickness="0.5" Stroke="Gray"/>
-                    <ListView x:Name="lv" ItemsSource="{Binding Path=SecondaryNavItems}" ItemTemplate="{StaticResource ButtonItemTemplate}">
+                <Button Grid.Row="0" Content="&#xE700;" FontFamily="Segoe MDL2 Assets" Width="48" Height="44" 
+                                Command="{Binding ToggleNavCommand}" />
+                <ScrollViewer Grid.Row="1" VerticalAlignment="Top">
+                    <StackPanel Orientation="Vertical">
+                        <ListView ItemsSource="{Binding Path=MainNavItems}" 
+                              ItemTemplate="{StaticResource ButtonItemTemplate}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel Grid.Row="2" BorderThickness="0,0.5,0,0" BorderBrush="Gray" VerticalAlignment="Bottom" Orientation="Vertical">
+                    <ListView ItemsSource="{Binding Path=SecondaryNavItems}" 
+                              ItemTemplate="{StaticResource ButtonItemTemplate}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
