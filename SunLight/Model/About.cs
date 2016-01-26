@@ -31,7 +31,9 @@ namespace Sunlight.Model
             }
         }
 
-        public string PackageName => Package.Current.Id.Name;
+        public string PackageFamilyName => Package.Current.Id.FamilyName;
+
+        public string ProductId => Package.Current.Id.ProductId;
 
         public IEnumerable<Link> Links { get; private set; }
     }

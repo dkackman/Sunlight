@@ -10,7 +10,8 @@ namespace Sunlight.Model
     {
         string Name { get; }
         string Publisher { get; }
-        string PackageName { get; }
+        string PackageFamilyName { get; }
+        string ProductId { get; }
         string Version { get; }
         Uri PrivacyStatement { get; }
         Uri TermsOfUse { get; }

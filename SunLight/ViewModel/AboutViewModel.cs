@@ -6,7 +6,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 
 using Sunlight.Model;
-
 namespace Sunlight.ViewModel
 {
     public sealed class AboutViewModel : ViewModel
@@ -18,8 +17,11 @@ namespace Sunlight.ViewModel
         {
             _about = about;
 
-            RateCommand = new RelayCommand(() => Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?PFN={_about.PackageName}")));
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            RateCommand = new RelayCommand(() => Launcher.LaunchUriAsync(new Uri($"ms-windows-store:REVIEW?ProductId={_about.ProductId}")));
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
+//windows-feedback:ADD?PFN=Microsoft.WindowsFeedback_cw5n1h2txyewy
             //FeedbackCommand = new RelayCommand(() => Launcher.LaunchUriAsync(
             //        new Uri($"ms-windows-store:REVIEW?PFN={_about.PackageName}")));
         }

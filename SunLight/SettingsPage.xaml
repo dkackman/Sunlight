@@ -21,7 +21,7 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <AutoSuggestBox PlaceholderText="Find your location" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
+                        <AutoSuggestBox PlaceholderText="Zip code" Grid.Column="0" VerticalAlignment="Stretch" QueryIcon="Find"/>
                         <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
                     </Grid>
                 </StackPanel>

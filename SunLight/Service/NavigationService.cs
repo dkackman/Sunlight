@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
@@ -15,6 +17,7 @@ namespace Sunlight.Service
 
         public NavigationService()
         {
+            SystemNavigationManager.GetForCurrentView().BackRequested += (o, e) => e.Handled = TryGoBack();
         }
 
         public Frame Root
@@ -24,7 +27,6 @@ namespace Sunlight.Service
             {
                 _root = value;
                 _root.Navigated += _root_Navigated;
-                SystemNavigationManager.GetForCurrentView().BackRequested += (o, e) => GoBack();
             }
         }
 
@@ -47,22 +49,39 @@ namespace Sunlight.Service
 
         public string CurrentPageKey { get; private set; }
 
-        public void GoBack()
+        private bool TryGoBack()
         {
             if (Root.CanGoBack)
             {
                 Root.GoBack();
+                var kvp = _pages.FirstOrDefault(pair => pair.Value == Root.CurrentSourcePageType);
+                if (kvp.Key != null)
+                {
+                    CurrentPageKey = kvp.Key;
+                }
+
+                return true;
             }
+
+            return false;
+        }
+
+        public void GoBack()
+        {
+            TryGoBack();
         }
 
         public void NavigateTo(string pageKey)
         {
-            bool b = Root.Navigate(_pages[pageKey]);
+            NavigateTo(pageKey, null);
         }
 
         public void NavigateTo(string pageKey, object parameter)
         {
-            Root.Navigate(_pages[pageKey], parameter);
+            if (Root.Navigate(_pages[pageKey], parameter))
+            {
+                CurrentPageKey = pageKey;
+            }
         }
     }
 }
