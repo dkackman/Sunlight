@@ -45,7 +45,6 @@ namespace Sunlight.ViewModel
             Justification = "This non-static member is needed for data binding purposes.")]
         public AboutViewModel About => ServiceLocator.Current.GetInstance<AboutViewModel>();
 
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]

@@ -14,8 +14,6 @@ namespace Sunlight.ViewModel
         public MainViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            ToggleNavCommand = new RelayCommand(() => IsNavOpen = !IsNavOpen);
-
             MainNavItems = new ObservableCollection<NavItem>()
             {
                 new NavItem()
@@ -62,7 +60,7 @@ namespace Sunlight.ViewModel
             set { Set<bool>(ref _isNavOpen, value); }
         }
 
-        public RelayCommand ToggleNavCommand { get; private set; }
+        public RelayCommand ToggleNavCommand => new RelayCommand(() => IsNavOpen = !IsNavOpen);
 
         public ObservableCollection<NavItem> MainNavItems { get; private set; }
 
