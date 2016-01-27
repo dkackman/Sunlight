@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace Sunlight.Model
 {
-    public class Credit
-    {
-
-    }
-
     public interface IAbout
     {
         string Name { get; }

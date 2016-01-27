@@ -12,6 +12,15 @@ namespace Sunlight.Model
             {
                 new Link() { Text = "Help", Target = new Uri("https://github.com/dkackman", UriKind.Absolute) }
             };
+
+            Credits = new List<Credit>()
+            {
+                new Credit()
+                {
+                    Subject = "Legislative data provided by",
+                    ImageUri = new Uri("ms-appx:///Assets/sflogo.png")
+                }
+            };
         }
 
         public string Name => Package.Current.DisplayName;

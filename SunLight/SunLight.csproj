@@ -114,6 +114,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\About.cs" />
+    <Compile Include="Model\Credit.cs" />
     <Compile Include="Model\IAbout.cs" />
     <Compile Include="Model\ISettings.cs" />
     <Compile Include="Model\Link.cs" />
@@ -137,6 +138,7 @@
     <None Include="SunLight_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\sflogo.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

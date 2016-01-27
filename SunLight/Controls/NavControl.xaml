@@ -45,7 +45,7 @@
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" Content="&#xE700;" FontFamily="Segoe MDL2 Assets" Width="48" Height="44" 
                                 Command="{Binding ToggleNavCommand}" />
-                <ScrollViewer Grid.Row="1" VerticalAlignment="Top">
+                <ScrollViewer Grid.Row="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
                         <ListView ItemsSource="{Binding Path=MainNavItems}" 
                               ItemTemplate="{StaticResource ButtonItemTemplate}">

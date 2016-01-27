@@ -40,7 +40,16 @@
             <i:Interaction.Behaviors>
                 <local:HideablePivotItemBehavior Visible="{Binding Model.Credits, Converter={StaticResource IsNotNullConverter}}" />
             </i:Interaction.Behaviors>
-            <WebView Source="{Binding Model.Credits}"/>
+            <ItemsControl ItemsSource="{Binding Model.Credits}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,12,0,0" Orientation="Vertical">
+                            <TextBlock Text="{Binding Subject}"/>
+                            <Image HorizontalAlignment="Left" Source="{Binding ImageUri}" Stretch="None" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </PivotItem>
         <PivotItem Header="About">
             <controls:AboutControl DataContext="{Binding About, Source={StaticResource Locator}}"/>

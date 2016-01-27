@@ -23,44 +23,9 @@ namespace Sunlight.ViewModel
                     Text = "Home",
                     ButtonText = "\uE80F",
                     Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                                                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                                                                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                                                                                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
-                },
-                                                                                                new NavItem()
-                {
-                    Text = "Home",
-                    ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
                 }
             };
+
             SecondaryNavItems = new ObservableCollection<NavItem>()
             {
                 new NavItem()
@@ -94,10 +59,7 @@ namespace Sunlight.ViewModel
         public bool IsNavOpen
         {
             get { return _isNavOpen; }
-            set
-            {
-                Set<bool>(ref _isNavOpen, value);
-            }
+            set { Set<bool>(ref _isNavOpen, value); }
         }
 
         public RelayCommand ToggleNavCommand { get; private set; }
