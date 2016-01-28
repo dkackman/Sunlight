@@ -20,7 +20,13 @@ namespace Sunlight.ViewModel
                 {
                     Text = "Home",
                     ButtonText = "\uE80F",
-                    Command = new RelayCommand(() => NavigateTo("Home"))
+                    Command = new RelayCommand(() => NavigateTo("Home"), () => ActivePage != "Home" )
+                },
+                new NavItem()
+                {
+                    Text = "Settings",
+                    ButtonText = "\uE713",
+                    Command = new RelayCommand(() => NavigateTo("Settings"), () => ActivePage != "Settings" )
                 }
             };
 
@@ -42,7 +48,7 @@ namespace Sunlight.ViewModel
                 {
                     Text = "Settings",
                     ButtonText = "\uE713",
-                    Command = new RelayCommand(() => NavigateTo("Settings"))
+                    Command = new RelayCommand(() => NavigateTo("Settings"), () => ActivePage != "Settings" )
                 }
             };
 
@@ -65,5 +71,22 @@ namespace Sunlight.ViewModel
         public ObservableCollection<NavItem> MainNavItems { get; private set; }
 
         public ObservableCollection<NavItem> SecondaryNavItems { get; private set; }
+
+        protected override void NavigateTo(string page, object state)
+        {
+            base.NavigateTo(page, state);
+
+            foreach (var nav in MainNavItems)
+            {
+                nav.Command.RaiseCanExecuteChanged();
+                nav.IsSelected = ActivePage == nav.Text;
+            }
+
+            foreach (var nav in SecondaryNavItems)
+            {
+                nav.Command.RaiseCanExecuteChanged();
+                nav.IsSelected = ActivePage == nav.Text;
+            }
+        }
     }
 }

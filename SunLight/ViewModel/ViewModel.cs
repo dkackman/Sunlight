@@ -18,11 +18,14 @@ namespace Sunlight.ViewModel
             _navigationService = navigationService;
         }
 
+        public string ActivePage { get { return _navigationService.CurrentPageKey; } }
+
         protected void NavigateTo(string page)
         {
-            DispatcherHelper.CheckBeginInvokeOnUI(() => _navigationService.NavigateTo(page));
+            NavigateTo(page, null);
         }
-        protected void NavigateTo(string page, object state)
+
+        protected virtual void NavigateTo(string page, object state)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() => _navigationService.NavigateTo(page, state));
         }

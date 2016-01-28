@@ -5,6 +5,7 @@
     xmlns:local="using:Sunlight.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     VerticalAlignment="Stretch"
     HorizontalAlignment="Stretch"
     mc:Ignorable="d"
@@ -26,7 +27,10 @@
             <DataTemplate x:Key="ButtonItemTemplate">
                 <Button Command="{Binding Command}" Style="{StaticResource ButtonStyleNoHighlighting}" 
                         Margin="0" Height="44" BorderThickness="0" Padding="0">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                        extensions:ListViewItemExtensions.IsSelected="{Binding IsSelected}"
+                        extensions:ListViewItemExtensions.IsEnabled="{Binding IsEnabled}">
+
                         <TextBlock Width="48" VerticalAlignment="Stretch" TextAlignment="Center" Text="{Binding ButtonText}" FontFamily="Segoe MDL2 Assets"/>
                         <TextBlock Text="{Binding Text}" />
                     </StackPanel>
@@ -47,8 +51,8 @@
                                 Command="{Binding ToggleNavCommand}" />
                 <ScrollViewer Grid.Row="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
-                        <ListView ItemsSource="{Binding Path=MainNavItems}" 
-                              ItemTemplate="{StaticResource ButtonItemTemplate}">
+                        <ListView x:Name="MainItems" ItemsSource="{Binding Path=MainNavItems}"
+                              ItemTemplate="{StaticResource ButtonItemTemplate}" ItemClick="ListView_ItemClick">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -60,8 +64,8 @@
                     </StackPanel>
                 </ScrollViewer>
                 <StackPanel Grid.Row="2" BorderThickness="0,0.5,0,0" BorderBrush="Gray" VerticalAlignment="Bottom" Orientation="Vertical">
-                    <ListView ItemsSource="{Binding Path=SecondaryNavItems}" 
-                              ItemTemplate="{StaticResource ButtonItemTemplate}">
+                    <ListView x:Name="SecondaryItems" ItemsSource="{Binding Path=SecondaryNavItems}" 
+                              ItemTemplate="{StaticResource ButtonItemTemplate}" ItemClick="ListView_ItemClick">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />

@@ -5,7 +5,7 @@ using Windows.ApplicationModel;
 
 namespace Sunlight.Model
 {
-    class About : IAbout
+    sealed class About : IAbout
     {
         public About()
         {
