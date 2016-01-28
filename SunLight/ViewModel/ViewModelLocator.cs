@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 
 using Sunlight.Model;
+using Sunlight.Service;
 
 namespace Sunlight.ViewModel
 {
@@ -16,7 +17,7 @@ namespace Sunlight.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             // setup app services
-            SimpleIoc.Default.Register<INavigationService>(() =>
+            SimpleIoc.Default.Register<INavigationService2>(() =>
             {
                 var nav = new Sunlight.Service.NavigationService();
                 nav.Configure("Home", typeof(HomePage));

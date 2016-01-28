@@ -6,13 +6,15 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
 
 using Sunlight.Model;
+using Sunlight.Service;
+
 namespace Sunlight.ViewModel
 {
     public sealed class AboutViewModel : ViewModel
     {
         private readonly IAbout _about;
 
-        public AboutViewModel(IAbout about, INavigationService navigationService)
+        public AboutViewModel(IAbout about, INavigationService2 navigationService)
             : base(navigationService)
         {
             _about = about;

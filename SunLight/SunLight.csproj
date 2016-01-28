@@ -121,6 +121,7 @@
     <Compile Include="Model\Settings.cs" />
     <Compile Include="NavItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\INavigationService2.cs" />
     <Compile Include="Service\NavigationService.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>

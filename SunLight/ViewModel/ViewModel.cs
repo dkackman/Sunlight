@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 
+using Sunlight.Service;
+
 namespace Sunlight.ViewModel
 {
     public abstract class ViewModel : ViewModelBase
@@ -11,9 +13,9 @@ namespace Sunlight.ViewModel
             DispatcherHelper.Initialize();
         }
 
-        private readonly INavigationService _navigationService;
+        private readonly INavigationService2 _navigationService;
 
-        protected ViewModel(INavigationService navigationService)
+        protected ViewModel(INavigationService2 navigationService)
         {
             _navigationService = navigationService;
         }
@@ -25,7 +27,7 @@ namespace Sunlight.ViewModel
             NavigateTo(page, null);
         }
 
-        protected virtual void NavigateTo(string page, object state)
+        protected void NavigateTo(string page, object state)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() => _navigationService.NavigateTo(page, state));
         }

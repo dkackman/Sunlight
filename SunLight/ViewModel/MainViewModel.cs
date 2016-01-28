@@ -7,11 +7,13 @@ using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 
+using Sunlight.Service;
+
 namespace Sunlight.ViewModel
 {
     public class MainViewModel : ViewModel
     {
-        public MainViewModel(INavigationService navigationService)
+        public MainViewModel(INavigationService2 navigationService)
             : base(navigationService)
         {
             MainNavItems = new ObservableCollection<NavItem>()
@@ -52,6 +54,8 @@ namespace Sunlight.ViewModel
                 }
             };
 
+            navigationService.Navigated += NavigationService_Navigated;
+
             // do this asynchronously on the dispatcher so that the UI is full instantiated
             // before we attempt to navigate (see comment in NavControl.xaml.cs)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -72,10 +76,8 @@ namespace Sunlight.ViewModel
 
         public ObservableCollection<NavItem> SecondaryNavItems { get; private set; }
 
-        protected override void NavigateTo(string page, object state)
+        private void NavigationService_Navigated(object sender, EventArgs e)
         {
-            base.NavigateTo(page, state);
-
             foreach (var nav in MainNavItems)
             {
                 nav.Command.RaiseCanExecuteChanged();

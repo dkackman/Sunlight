@@ -3,6 +3,7 @@
 using GalaSoft.MvvmLight.Views;
 
 using Sunlight.Model;
+using Sunlight.Service;
 
 namespace Sunlight.ViewModel
 {
@@ -10,7 +11,7 @@ namespace Sunlight.ViewModel
     {
         private readonly ISettings _settings;
 
-        public SettingsViewModel(ISettings settings, INavigationService navigationService)
+        public SettingsViewModel(ISettings settings, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;

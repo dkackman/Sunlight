@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 using Windows.UI.Xaml.Controls;
@@ -10,10 +11,12 @@ using GalaSoft.MvvmLight.Views;
 
 namespace Sunlight.Service
 {
-    sealed class NavigationService : INavigationService
+    sealed class NavigationService : INavigationService, INavigationService2
     {
         private readonly IDictionary<string, Type> _pages = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase);
         private Frame _root;
+
+        public event EventHandler Navigated;
 
         public NavigationService()
         {
@@ -23,8 +26,11 @@ namespace Sunlight.Service
         public Frame Root
         {
             get { return _root; }
-            internal set
+            set
             {
+                Debug.Assert(_root == null, "Root should only be set once");
+                Debug.Assert(value != null, "Root cannot be null");
+
                 _root = value;
                 _root.Navigated += _root_Navigated;
             }
@@ -59,7 +65,7 @@ namespace Sunlight.Service
                 {
                     CurrentPageKey = kvp.Key;
                 }
-
+                OnNavigated();
                 return true;
             }
 
@@ -81,6 +87,16 @@ namespace Sunlight.Service
             if (Root.Navigate(_pages[pageKey], parameter))
             {
                 CurrentPageKey = pageKey;
+                OnNavigated();
+            }
+        }
+
+        private void OnNavigated()
+        {
+            var e = Navigated;
+            if (e != null)
+            {
+                e(this, EventArgs.Empty);
             }
         }
     }
