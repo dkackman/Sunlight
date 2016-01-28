@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,11 +15,12 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Storage;
 
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
 
-using Sunlight.Service;
+using Sunlight.Model;
 
 namespace Sunlight
 {
@@ -38,9 +40,25 @@ namespace Sunlight
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             
             this.InitializeComponent();
-            this.RequestedTheme = ApplicationTheme.Light;
+            this.RequestedTheme = LoadApplicationTheme();
             this.Suspending += OnSuspending;
         }        
+
+        private ApplicationTheme LoadApplicationTheme()
+        {
+            try
+            {
+                // this happens before the IoC container is setup - just make a settings isntance
+                var settings = new Settings(ApplicationData.Current.LocalSettings);
+                return settings.Theme == "Dark" ? ApplicationTheme.Dark : ApplicationTheme.Light;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("LoadApplicationTheme: " + e.Message);
+            }
+
+            return ApplicationTheme.Light;
+        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

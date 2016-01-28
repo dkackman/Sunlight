@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using Windows.Storage;
+
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 
 using Microsoft.Practices.ServiceLocation;
@@ -26,7 +28,7 @@ namespace Sunlight.ViewModel
 
             // setup models
             SimpleIoc.Default.Register<IAbout, About>();
-            SimpleIoc.Default.Register<ISettings, Settings>();
+            SimpleIoc.Default.Register<ISettings>(() => new Settings(ApplicationData.Current.LocalSettings));
 
 
             // setup view models

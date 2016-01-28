@@ -9,5 +9,9 @@ namespace Sunlight.Model
     public interface ISettings
     {
         string Theme { get; set; }
+
+        T GetValue<T>(string key, T defaultValue);
+
+        void SetValue(string key, object value);
     }
 }
