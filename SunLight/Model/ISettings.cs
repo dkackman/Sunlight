@@ -8,5 +8,6 @@ namespace Sunlight.Model
 {
     public interface ISettings
     {
+        string Theme { get; set; }
     }
 }

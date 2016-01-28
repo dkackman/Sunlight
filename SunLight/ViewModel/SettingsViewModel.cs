@@ -13,5 +13,13 @@ namespace Sunlight.ViewModel
         {
             _settings = settings;
         }
+
+        public string Theme
+        {
+            get
+            {
+                return _settings.Theme;
+            }
+        }
     }
 }

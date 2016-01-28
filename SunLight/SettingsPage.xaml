@@ -8,7 +8,8 @@
     xmlns:i="using:WinRTXamlToolkit.Interactivity"
     xmlns:controls="using:Sunlight.Controls"
     mc:Ignorable="d"
-    DataContext="{Binding Settings, Source={StaticResource Locator}}">
+    DataContext="{Binding Settings, Source={StaticResource Locator}}"
+    >
 
     <Pivot Title="Settings" Margin="12,0,0,0">
         <PivotItem Header="General">
@@ -45,7 +46,10 @@
                     <DataTemplate>
                         <StackPanel Margin="0,12,0,0" Orientation="Vertical">
                             <TextBlock Text="{Binding Subject}"/>
-                            <Image HorizontalAlignment="Left" Source="{Binding ImageUri}" Stretch="None" />
+                            <TextBlock Text="{Binding Text}" 
+                                    Visibility="{Binding Text, Converter={StaticResource NullToVisibilityConverter}}"/>
+                            <Image Source="{Binding ImageUri}" HorizontalAlignment="Left" Stretch="None" 
+                                    Visibility="{Binding ImageUri, Converter={StaticResource NullToVisibilityConverter}}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

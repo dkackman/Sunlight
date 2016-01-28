@@ -5,7 +5,7 @@
     xmlns:local="using:Sunlight"
     xmlns:vm="using:Sunlight.ViewModel" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"      
-    RequestedTheme="Light">
+   >
     <Application.Resources>
         <!--Global View Model Locator-->
         <vm:ViewModelLocator x:Key="Locator" />

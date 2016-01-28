@@ -10,5 +10,17 @@ namespace Sunlight.Model
 {
     class Settings : ISettings
     {
+        public string Theme
+        {
+            get
+            {
+                return "Dark";
+            }
+
+            set
+            {
+                
+            }
+        }
     }
 }

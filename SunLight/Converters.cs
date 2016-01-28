@@ -58,12 +58,22 @@ namespace Sunlight
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            bool visible = true;
             if (value is string)
             {
-                return string.IsNullOrEmpty((string)value) ? Visibility.Collapsed : Visibility.Visible;
+                visible = !string.IsNullOrEmpty((string)value);
+            }
+            else
+            {
+                visible = !object.ReferenceEquals(value, null);
             }
 
-            return object.ReferenceEquals(value, null) ? Visibility.Collapsed : Visibility.Visible;
+            if (parameter != null && parameter.Equals("negate"))
+            {
+                visible = !visible;
+            }
+
+            return visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
