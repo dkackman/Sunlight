@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 
 using Windows.System;
 
-using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 
@@ -23,12 +22,6 @@ namespace Sunlight.ViewModel
                     Text = "Home",
                     ButtonText = "\uE80F",
                     Command = new RelayCommand(() => NavigateTo("Home"), () => ActivePage != "Home" )
-                },
-                new NavItem()
-                {
-                    Text = "Settings",
-                    ButtonText = "\uE713",
-                    Command = new RelayCommand(() => NavigateTo("Settings"), () => ActivePage != "Settings" )
                 }
             };
 
