@@ -14,6 +14,14 @@
     <Pivot Title="Settings" Margin="12,0,0,0">
         <PivotItem Header="General">
             <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
+                    <TextBlock Text="Theme" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="(requires app restart)" Style="{StaticResource CaptionTextBlockStyle}" 
+                               Margin="12,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+                <ComboBox ItemsSource="{Binding ThemeList}" SelectedItem="{Binding Path=Theme, Mode=TwoWay}">
+                    
+                </ComboBox>
                 <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

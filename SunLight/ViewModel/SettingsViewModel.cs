@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight.Views;
+﻿using System.Collections.Generic;
+
+using GalaSoft.MvvmLight.Views;
 
 using Sunlight.Model;
 
@@ -20,6 +22,12 @@ namespace Sunlight.ViewModel
             {
                 return _settings.Theme;
             }
+            set
+            {
+                _settings.Theme = value;
+            }
         }
+
+        public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
     }
 }

@@ -28,10 +28,16 @@ namespace Sunlight.Model
 
             set
             {
-                SetValue("Theme", value);
+                if (value != null && (value.Equals("Light", StringComparison.OrdinalIgnoreCase) || value.Equals("Dark", StringComparison.OrdinalIgnoreCase)))
+                {
+                    SetValue("Theme", value);
+                }
+                else
+                {
+                    Debug.Assert(false);
+                }
             }
         }
-
         public T GetValue<T>(string key, T defaultValue)
         {
             try
@@ -50,7 +56,7 @@ namespace Sunlight.Model
 
         public void SetValue(string key, object value)
         {
-            _container.Values["key"] = value;
+            _container.Values[key] = value;            
         }
     }
 }
