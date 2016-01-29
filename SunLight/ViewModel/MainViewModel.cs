@@ -29,7 +29,7 @@ namespace Sunlight.ViewModel
             {
                 new NavItem()
                 {
-                    Text = "Visit the sunlight foundation",
+                    Text = "Visit sunlight foundation",
                     ButtonText = "\uE909",
                     Command = new RelayCommand(() =>
                     {

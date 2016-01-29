@@ -10,6 +10,8 @@ namespace Sunlight.Model
     {
         string Theme { get; set; }
 
+        string ZipCode { get; set; }
+
         T GetValue<T>(string key, T defaultValue);
 
         void SetValue(string key, object value);

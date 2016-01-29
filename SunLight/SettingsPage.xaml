@@ -20,7 +20,7 @@
                                Margin="12,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding ThemeList}" SelectedItem="{Binding Path=Theme, Mode=TwoWay}">
-                    
+
                 </ComboBox>
                 <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
                 <Grid>
@@ -28,8 +28,22 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <AutoSuggestBox Grid.Column="0" PlaceholderText="Zip code" VerticalAlignment="Stretch" QueryIcon="Find"/>
-                    <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" Margin="24,0,0,0" ToolTipService.ToolTip="Detect your location"/>
+                    <StackPanel>
+                        <AutoSuggestBox Grid.Column="0" PlaceholderText="Zip code" VerticalAlignment="Stretch" QueryIcon="Find"
+                                    Text="{Binding ZipCode, Mode=TwoWay}"
+                                    TextChanged="AutoSuggestBox_TextChanged"
+                                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                                    SuggestionChosen="AutoSuggestBox_SuggestionChosen"/>
+                        <TextBlock
+                            x:Name="NoResults"
+                            Text="No results found"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Visibility="Collapsed" />
+                    </StackPanel>
+                    <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" 
+                            VerticalAlignment="Top"
+                            Margin="24,0,0,0" 
+                            ToolTipService.ToolTip="Detect your location"/>
                 </Grid>
             </StackPanel>
         </PivotItem>

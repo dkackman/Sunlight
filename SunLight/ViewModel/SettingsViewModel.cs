@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using GalaSoft.MvvmLight.Views;
-
 using Sunlight.Model;
 using Sunlight.Service;
 
@@ -26,6 +24,25 @@ namespace Sunlight.ViewModel
             set
             {
                 _settings.Theme = value;
+            }
+        }
+
+        public string ZipCode
+        {
+            get
+            {
+                return _settings.ZipCode;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (value.IndexOf(' ') >= 0)
+                    {
+                        value = value.Split(' ')[0];
+                    }
+                    _settings.ZipCode = value;
+                }
             }
         }
 

@@ -32,6 +32,23 @@ namespace Sunlight.Model
                 }
             }
         }
+
+        public string ZipCode
+        {
+            get
+            {
+                return GetValue<string>("ZipCode", "");
+            }
+
+            set
+            {
+                if (value != null && value.Length >= 5)
+                {
+                    SetValue("ZipCode", value);
+                }
+            }
+        }
+
         public T GetValue<T>(string key, T defaultValue)
         {
             try

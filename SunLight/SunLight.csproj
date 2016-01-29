@@ -119,7 +119,10 @@
     <Compile Include="Model\ISettings.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\Settings.cs" />
+    <Compile Include="Model\ZipCode.cs" />
+    <Compile Include="Model\ZipCodeDb.cs" />
     <Compile Include="NavItem.cs" />
+    <Compile Include="NonblockingCriticalSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\INavigationService2.cs" />
     <Compile Include="Service\NavigationService.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\ZipCodeSearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -140,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\sflogo.png" />
+    <EmbeddedResource Include="Data\ZipCodes.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
