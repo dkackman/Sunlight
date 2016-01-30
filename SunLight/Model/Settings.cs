@@ -42,7 +42,11 @@ namespace Sunlight.Model
 
             set
             {
-                if (value != null && value.Length >= 5)
+                if (string.IsNullOrEmpty(value))
+                {
+                    Remove("ZipCode");
+                }
+                else if (value.Length >= 5)
                 {
                     SetValue("ZipCode", value);
                 }
@@ -65,9 +69,17 @@ namespace Sunlight.Model
             return defaultValue;
         }
 
+        public void Remove(string key)
+        {
+            if (_container.Values.ContainsKey(key))
+            {
+                _container.Values.Remove(key);
+            }
+        }
+
         public void SetValue(string key, object value)
         {
-            _container.Values[key] = value;            
+            _container.Values[key] = value;
         }
     }
 }

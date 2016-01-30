@@ -8,12 +8,16 @@ namespace Sunlight.ViewModel
     public sealed class SettingsViewModel : ViewModel
     {
         private readonly ISettings _settings;
+        private readonly ZipCodeSearchViewModel _zipSearchVm;
 
         public SettingsViewModel(ISettings settings, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
+            _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
         }
+
+        public ZipCodeSearchViewModel ZipCodeSearch => _zipSearchVm;
 
         public string Theme
         {
@@ -35,14 +39,15 @@ namespace Sunlight.ViewModel
             }
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.IndexOf(' ') >= 0)
                 {
-                    if (value.IndexOf(' ') >= 0)
-                    {
-                        value = value.Split(' ')[0];
-                    }
-                    _settings.ZipCode = value;
+                    // this bit is for when the user selects the zip + city, state auto suggesiton
+                    // it strips out the zip and just remembers that
+                    value = value.Split(' ')[0];
                 }
+
+                _settings.ZipCode = value;
+                ZipCodeSearch.SearchTerm = value;
             }
         }
 

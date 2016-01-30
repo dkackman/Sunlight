@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using GalaSoft.MvvmLight;
 
 using Sunlight.Service;
 using Sunlight.Model;
 
 namespace Sunlight.ViewModel
 {
-    class ZipCodeSearchViewModel : ViewModel
+    public class ZipCodeSearchViewModel : ViewModel
     {
         private readonly ZipCodeDb _zipCodes = new ZipCodeDb();
 
@@ -42,13 +37,13 @@ namespace Sunlight.ViewModel
             {
                 _matches = value;
                 RaisePropertyChangedOnUI("Matches");
-                RaisePropertyChangedOnUI("HaveMatch");
+                RaisePropertyChangedOnUI("NoResults");
             }
         }
 
-        public bool HaveMatch
+        public bool NoResults
         {
-            get { return _matches != null && _matches.Any(); }
+            get { return _matches != null && !_matches.Any(); }
         }
     }
 }

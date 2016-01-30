@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sunlight.Model
 {
-    sealed class ZipCode
+    public sealed class ZipCode
     {
         public string Zip {get;set;}
 

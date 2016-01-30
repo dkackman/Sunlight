@@ -15,5 +15,7 @@ namespace Sunlight.Model
         T GetValue<T>(string key, T defaultValue);
 
         void SetValue(string key, object value);
+
+        void Remove(string key);
     }
 }
