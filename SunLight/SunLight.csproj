@@ -146,6 +146,7 @@
   <ItemGroup>
     <Content Include="Assets\sflogo.png" />
     <EmbeddedResource Include="Data\ZipCodes.txt" />
+    <Content Include="keys.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
