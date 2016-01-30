@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using GalaSoft.MvvmLight.Command;
+
 using Sunlight.Model;
 using Sunlight.Service;
 
@@ -9,15 +11,21 @@ namespace Sunlight.ViewModel
     {
         private readonly ISettings _settings;
         private readonly ZipCodeSearchViewModel _zipSearchVm;
+        private readonly GeoLocationViewModel _geoVM;
 
         public SettingsViewModel(ISettings settings, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
             _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
+            _geoVM = new GeoLocationViewModel(navigationService);
         }
 
         public ZipCodeSearchViewModel ZipCodeSearch => _zipSearchVm;
+
+        public GeoLocationViewModel GeoLocation => _geoVM;
+
+        public RelayCommand GeoLocateCommand => new RelayCommand(() => _geoVM.GetLocation());
 
         public string Theme
         {

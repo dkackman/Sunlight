@@ -9,6 +9,7 @@
     xmlns:controls="using:Sunlight.Controls"
     mc:Ignorable="d"
     DataContext="{Binding Settings, Source={StaticResource Locator}}"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     >
 
     <Pivot Title="Settings" Margin="12,0,0,0">
@@ -39,10 +40,18 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Visibility="{Binding ZipCodeSearch.NoResults, Converter={StaticResource VisibilityConverter}}" />
                     </StackPanel>
-                    <Button Grid.Column="1" Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" 
+                    <StackPanel Grid.Column="1">
+                        <Button Command="{Binding GeoLocateCommand}"
+                            Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" 
                             VerticalAlignment="Top"
                             Margin="24,0,0,0" 
                             ToolTipService.ToolTip="Detect your location"/>
+                        <Maps:MapControl Name="MyMapControl" DataContext="{Binding GeoLocation}"
+                                         Visibility="{Binding CanGeoLocate, Converter={StaticResource VisibilityConverter}}"
+                                         MapServiceToken="{Binding Token}">
+                            <!--<Maps:MapItemsControl></Maps:MapItemsControl>-->
+                        </Maps:MapControl>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </PivotItem>

@@ -10,7 +10,7 @@ using Sunlight.Service;
 
 namespace Sunlight.ViewModel
 {
-    public class ViewModelLocator
+    public sealed class ViewModelLocator
     {
         static ViewModelLocator()
         {

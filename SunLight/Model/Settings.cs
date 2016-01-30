@@ -8,6 +8,7 @@ namespace Sunlight.Model
     sealed class Settings : ISettings
     {
         private readonly ApplicationDataContainer _container;
+
         public Settings(ApplicationDataContainer container)
         {
             _container = container;

@@ -10,7 +10,7 @@ using Sunlight.Service;
 
 namespace Sunlight.ViewModel
 {
-    public class MainViewModel : ViewModel
+    public sealed class MainViewModel : ViewModel
     {
         public MainViewModel(INavigationService2 navigationService)
             : base(navigationService)

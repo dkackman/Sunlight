@@ -6,7 +6,7 @@ using Sunlight.Model;
 
 namespace Sunlight.ViewModel
 {
-    public class ZipCodeSearchViewModel : ViewModel
+    public sealed class ZipCodeSearchViewModel : ViewModel
     {
         private readonly ZipCodeDb _zipCodes = new ZipCodeDb();
 
