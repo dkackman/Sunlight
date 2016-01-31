@@ -12,8 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+using Windows.UI.Xaml.Documents;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+
+using Sunlight.ViewModel;
 
 namespace Sunlight
 {
@@ -25,6 +27,15 @@ namespace Sunlight
         public HomePage()
         {
             this.InitializeComponent();
+        }
+
+        private void SettingHyperLink_Click(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            var vm = GotoSettings.DataContext as SettingsViewModel;
+            if (vm != null)
+            {
+                vm.GoToSettingsCommand.Execute(null);
+            }
         }
     }
 }

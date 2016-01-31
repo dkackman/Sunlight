@@ -21,6 +21,8 @@ namespace Sunlight.ViewModel
             _geoVM = new GeoLocationViewModel(keys, navigationService);
         }
 
+        public RelayCommand GoToSettingsCommand => new RelayCommand(() => NavigateTo("Settings"));
+
         public ZipCodeSearchViewModel ZipCodeSearch => _zipSearchVm;
 
         public GeoLocationViewModel GeoLocation => _geoVM;
@@ -58,8 +60,11 @@ namespace Sunlight.ViewModel
 
                 _settings.ZipCode = value;
                 ZipCodeSearch.SearchTerm = value;
+                RaisePropertiesChanged("IsZipCodeValid");
             }
         }
+
+        public bool IsZipCodeValid { get { return !string.IsNullOrEmpty(ZipCode) && ZipCode.Length == 5; } }
 
         public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
     }

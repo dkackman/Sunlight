@@ -52,8 +52,7 @@
                             DataContext="{Binding GeoLocation}" Name="MyMapControl" ZoomLevel="14"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             Center="{Binding Location, Mode=TwoWay}"
-                            Visibility="{Binding ShowLocation, Converter={StaticResource VisibilityConverter}}"           
-                            Style="Road"
+                            Visibility="{Binding ShowLocation, Converter={StaticResource VisibilityConverter}}"                                       
                             MapServiceToken="{Binding Token, Mode=OneTime}">
                         <Maps:MapControl.Children>
                             <Image Source="Assets/bullet_ball_red.png" 
