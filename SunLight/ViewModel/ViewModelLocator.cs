@@ -8,6 +8,8 @@ using Microsoft.Practices.ServiceLocation;
 using Sunlight.Model;
 using Sunlight.Service;
 
+using BingGeocoder;
+
 namespace Sunlight.ViewModel
 {
     public sealed class ViewModelLocator
@@ -17,6 +19,13 @@ namespace Sunlight.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             // setup app services
+            SimpleIoc.Default.Register<IDialogService, DialogService>();
+            SimpleIoc.Default.Register<Keys>();
+            SimpleIoc.Default.Register<IGeoCoder>(() =>
+            {
+                var keys = SimpleIoc.Default.GetInstance<Keys>();
+                return new GeoCoder(keys.Data.BingLocations);
+            });
             SimpleIoc.Default.Register<INavigationService2>(() =>
             {
                 var nav = new Sunlight.Service.NavigationService();
@@ -25,12 +34,10 @@ namespace Sunlight.ViewModel
 
                 return nav;
             });
-            SimpleIoc.Default.Register<IDialogService, DialogService>();
 
             // setup models
             SimpleIoc.Default.Register<IAbout, About>();
             SimpleIoc.Default.Register<ISettings>(() => new Settings(ApplicationData.Current.LocalSettings));
-
 
             // setup view models
             SimpleIoc.Default.Register<MainViewModel>();

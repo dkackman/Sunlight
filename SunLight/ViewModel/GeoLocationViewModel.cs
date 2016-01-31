@@ -11,15 +11,23 @@ using Sunlight.Service;
 
 namespace Sunlight.ViewModel
 {
+    public class MapItem
+    {
+        public Geopoint Location { get; set; }
+    }
     public sealed class GeoLocationViewModel : ViewModel
     {
-        public GeoLocationViewModel(INavigationService2 navigationService)
+        private readonly Keys _keys;
+
+        public GeoLocationViewModel(Keys keys, INavigationService2 navigationService)
             : base(navigationService)
         {
             var b = new BasicGeoposition();
-            b.Latitude = 48.279301;
-            b.Longitude = 11.582600;
-            Location = new Geopoint(b);
+            b.Latitude = 0;
+            b.Longitude = 0;
+            _location = new Geopoint(b);
+
+            _keys = keys;
         }
 
         private GeolocationAccessStatus _accessStatus = GeolocationAccessStatus.Unspecified;
@@ -37,6 +45,14 @@ namespace Sunlight.ViewModel
             }
         }
 
+        public bool ShowLocation
+        {
+            get
+            {
+                return Location.Position.Latitude != 0 || Location.Position.Longitude != 0;
+            }
+        }
+
         public bool CanGeoLocate
         {
             get
@@ -45,11 +61,27 @@ namespace Sunlight.ViewModel
             }
         }
 
-        public Geopoint Location { get; private set; }
+        public IEnumerable<MapItem> MapItems
+        {
+            get
+            {
+                return new List<MapItem>()
+                {
+                    new MapItem() { Location = Location }
+                };
+            }
+        }
 
-        public string Token { get; private set; }
+        private Geopoint _location;
+        public Geopoint Location
+        {
+            get { return _location; }
+            set { }
+        }
 
-        public async Task GetLocation() 
+        public string Token { get { return _keys.Data.BingMaps; } }
+
+        public async Task GetLocation()
         {
             AccessStatus = await Geolocator.RequestAccessAsync();
             if (AccessStatus == GeolocationAccessStatus.Allowed)
@@ -57,9 +89,10 @@ namespace Sunlight.ViewModel
                 Geolocator geolocator = new Geolocator();
                 Geoposition pos = await geolocator.GetGeopositionAsync();
 
-                Location = pos.Coordinate.Point;
+                _location = pos.Coordinate.Point;
 
-                RaisePropertyChangedOnUI("Location");
+                RaisePropertyChanged("Location");
+                RaisePropertyChangedOnUI("ShowLocation");
             }
         }
     }

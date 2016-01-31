@@ -17,20 +17,21 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,24,0,0">
                     <TextBlock Text="Theme" Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock Text="(requires app restart)" Style="{StaticResource CaptionTextBlockStyle}" 
-                               Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="(requires app restart)" Style="{StaticResource CaptionTextBlockStyle}" Margin="12,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
-                <ComboBox ItemsSource="{Binding ThemeList}" SelectedItem="{Binding Path=Theme, Mode=TwoWay}">
-
-                </ComboBox>
+                <ComboBox ItemsSource="{Binding ThemeList}" SelectedItem="{Binding Path=Theme, Mode=TwoWay}"/>
                 <TextBlock Text="Location" Style="{StaticResource SubtitleTextBlockStyle}" Margin="0,24,0,0"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <AutoSuggestBox Grid.Column="0" PlaceholderText="Zip code" VerticalAlignment="Stretch" QueryIcon="Find"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="300"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0">
+                        <AutoSuggestBox PlaceholderText="Zip code" VerticalAlignment="Stretch" QueryIcon="Find"
                                     Text="{Binding ZipCode, Mode=TwoWay}"
                                     QuerySubmitted="AutoSuggestBox_QuerySubmitted"
                                     ItemsSource="{Binding ZipCodeSearch.Matches}"/>
@@ -40,18 +41,27 @@
                             Style="{StaticResource BodyTextBlockStyle}"
                             Visibility="{Binding ZipCodeSearch.NoResults, Converter={StaticResource VisibilityConverter}}" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1">
+                    <StackPanel Grid.Column="1" Grid.Row="0">
                         <Button Command="{Binding GeoLocateCommand}"
                             Content="&#xE81D;" FontFamily="Segoe MDL2 Assets" 
                             VerticalAlignment="Top"
                             Margin="24,0,0,0" 
                             ToolTipService.ToolTip="Detect your location"/>
-                        <Maps:MapControl Name="MyMapControl" DataContext="{Binding GeoLocation}"
-                                         Visibility="{Binding CanGeoLocate, Converter={StaticResource VisibilityConverter}}"
-                                         MapServiceToken="{Binding Token}">
-                            <!--<Maps:MapItemsControl></Maps:MapItemsControl>-->
-                        </Maps:MapControl>
                     </StackPanel>
+                    <Maps:MapControl Grid.Column="0" Grid.Row="1" Margin="0,12,0,0"
+                            DataContext="{Binding GeoLocation}" Name="MyMapControl" ZoomLevel="14"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Center="{Binding Location, Mode=TwoWay}"
+                            Visibility="{Binding ShowLocation, Converter={StaticResource VisibilityConverter}}"           
+                            Style="Road"
+                            MapServiceToken="{Binding Token, Mode=OneTime}">
+                        <Maps:MapControl.Children>
+                            <Image Source="Assets/bullet_ball_red.png" 
+                                    Height="25"
+                                    Stretch="Uniform"
+                                    Maps:MapControl.Location="{Binding Location}"/>
+                        </Maps:MapControl.Children>
+                    </Maps:MapControl>
                 </Grid>
             </StackPanel>
         </PivotItem>

@@ -13,19 +13,21 @@ namespace Sunlight.ViewModel
         private readonly ZipCodeSearchViewModel _zipSearchVm;
         private readonly GeoLocationViewModel _geoVM;
 
-        public SettingsViewModel(ISettings settings, INavigationService2 navigationService)
+        public SettingsViewModel(ISettings settings, Keys keys, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
             _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
-            _geoVM = new GeoLocationViewModel(navigationService);
+            _geoVM = new GeoLocationViewModel(keys, navigationService);
         }
 
         public ZipCodeSearchViewModel ZipCodeSearch => _zipSearchVm;
 
         public GeoLocationViewModel GeoLocation => _geoVM;
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         public RelayCommand GeoLocateCommand => new RelayCommand(() => _geoVM.GetLocation());
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         public string Theme
         {

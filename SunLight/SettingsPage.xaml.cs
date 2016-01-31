@@ -24,8 +24,6 @@ namespace Sunlight
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        private readonly ZipCodeDb _zipCodes = new ZipCodeDb();
-
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -54,6 +52,11 @@ namespace Sunlight
           ////          NoResults.Visibility = Visibility.Visible;
           //      }
           //  }
+        }
+
+        private void MyMapControl_CenterChanged(Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
+        {
+
         }
     }
 }
