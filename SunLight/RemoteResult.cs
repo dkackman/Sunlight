@@ -37,9 +37,16 @@ namespace Sunlight
         private T _result;
         private readonly T _notSetSentinal;
         private AggregateException _exceptions;
+        private readonly Func<Task<T>> _func;
+        private readonly Action _continuation;
 
-        public RemoteResult(T notSetSentinal)
+        public RemoteResult(Func<Task<T>> func, Action continuation,T notSetSentinal)
         {
+            Debug.Assert(func != null);
+            Debug.Assert(continuation != null);
+
+            _func = func;
+            _continuation = continuation;
             _result = notSetSentinal;
             _notSetSentinal = notSetSentinal;
         }
@@ -50,7 +57,7 @@ namespace Sunlight
 
         public bool IsFaulted => _exceptions != null;
 
-        public bool IsSet => !object.ReferenceEquals(Result, _notSetSentinal);
+        public bool IsSet => !object.ReferenceEquals(_result, _notSetSentinal);
 
         public void Reset()
         {
@@ -64,18 +71,14 @@ namespace Sunlight
             }
         }
 
-        public async Task Execute(Func<bool> executeIf, Func<Task<T>> func, Action continuation)
+        public async Task Execute()
         {
-            Debug.Assert(executeIf != null);
-            Debug.Assert(func != null);
-            Debug.Assert(continuation != null);
-
             using (var scope = new Scope(this))
             {
-                if (scope.Entered && !IsSet && executeIf())
+                if (scope.Entered && !IsSet && !IsFaulted)
                 {
                     await Task.Run<T>(
-                        async () => await func())
+                        async () => await _func())
                         .ContinueWith((antecedent) =>
                         {
                             try
@@ -89,7 +92,7 @@ namespace Sunlight
                                 Interlocked.Exchange(ref _exceptions, e);
                             }
                         })
-                        .ContinueWith((antecedent) => continuation());
+                        .ContinueWith((antecedent) => _continuation());
                 }
             }
         }

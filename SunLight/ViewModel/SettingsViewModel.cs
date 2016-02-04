@@ -23,6 +23,8 @@ namespace Sunlight.ViewModel
             _congress = congress;
             _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
             _geoVM = new GeoLocationViewModel(keys, navigationService);
+
+            _district = new RemoteResult<dynamic>(async () => await _congress.GetFirstDistrict(ZipCode), () => RaisePropertiesChanged("District"), null);
         }
 
         public RelayCommand GoToSettingsCommand => new RelayCommand(() => NavigateTo("Settings"));
@@ -66,7 +68,7 @@ namespace Sunlight.ViewModel
                 ZipCodeSearch.SearchTerm = value;
                 _district.Reset();
 
-                RaisePropertiesChanged("IsZipCodeValid");                
+                RaisePropertiesChanged("IsZipCodeValid");
                 RaisePropertiesChanged("District");
             }
         }
@@ -75,17 +77,18 @@ namespace Sunlight.ViewModel
 
         public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
 
-        private RemoteResult<dynamic> _district = new RemoteResult<dynamic>(null);
+        private RemoteResult<dynamic> _district;
 
         public dynamic District
         {
             get
             {
+                if (IsZipCodeValid)
+                {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                _district.Execute(() => IsZipCodeValid,
-                    async () => await _congress.GetFirstDistrict(ZipCode),
-                    () => RaisePropertiesChanged("District"));
+                    _district.Execute();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                }
 
                 return _district.Result;
             }
