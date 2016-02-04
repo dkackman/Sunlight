@@ -4,30 +4,53 @@ using System.Threading.Tasks;
 
 namespace Sunlight
 {
-    sealed class NonblockingCriticalSection
+    sealed class RemoteResult<T>
     {
         private const int WAITING = 1;
         private const int NOT_WAITING = 0;
 
         private int _waiting = NOT_WAITING;
 
-        public async Task Execute(Func<Task> func, Action continuation = null)
+        public RemoteResult()
+        {
+            Result = default(T);
+        }
+
+        public T Result { get; private set; }
+
+        public async Task Execute(Func<bool> executeIf, Func<T> func, Action continuation = null)
+        {
+            if (Enter() && executeIf())
+            {
+                await Task.Run<T>(() => func()).ContinueWith((antecedent) =>
+                {
+                    try
+                    {
+                        Result = antecedent.Result;
+                    }
+                    catch (AggregateException e)
+                    {
+                    }
+
+                    if (continuation != null)
+                    {
+                        continuation();
+                    }
+                });
+            }
+        }
+        public async Task Execute<T>(Func<Task<T>> func, Action<T> continuation = null)
         {
             if (Enter())
             {
-                try
-                {
-                    await func();
-                }
-                finally
+                await Task.Run(func).ContinueWith(t =>
                 {
                     Exit();
-                }
-
-                if (continuation != null)
-                {
-                    continuation();
-                }
+                    if (continuation != null)
+                    {
+                        continuation(t.Result);
+                    }
+                });
             }
         }
 

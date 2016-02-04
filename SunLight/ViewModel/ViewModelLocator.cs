@@ -38,6 +38,11 @@ namespace Sunlight.ViewModel
             // setup models
             SimpleIoc.Default.Register<IAbout, About>();
             SimpleIoc.Default.Register<ISettings>(() => new Settings(ApplicationData.Current.LocalSettings));
+            SimpleIoc.Default.Register<ICongress>(() =>
+            {
+                var keys = SimpleIoc.Default.GetInstance<Keys>();
+                return new Congress((string)keys.Data.Sunlight);
+            });
 
             // setup view models
             SimpleIoc.Default.Register<MainViewModel>();

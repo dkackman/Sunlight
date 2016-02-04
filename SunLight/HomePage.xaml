@@ -26,5 +26,11 @@
                 <Run>page.</Run>
             </TextBlock>
         </Border>
+        <!--active bills
+        upcoming votes
+        nominations
+        floor updates
+        hearings
+        upcoming bills-->
     </Grid>
 </Page>

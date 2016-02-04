@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using GalaSoft.MvvmLight.Command;
 
@@ -10,13 +12,15 @@ namespace Sunlight.ViewModel
     public sealed class SettingsViewModel : ViewModel
     {
         private readonly ISettings _settings;
+        private readonly ICongress _congress;
         private readonly ZipCodeSearchViewModel _zipSearchVm;
         private readonly GeoLocationViewModel _geoVM;
 
-        public SettingsViewModel(ISettings settings, Keys keys, INavigationService2 navigationService)
+        public SettingsViewModel(ISettings settings, Keys keys, ICongress congress, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
+            _congress = congress;
             _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
             _geoVM = new GeoLocationViewModel(keys, navigationService);
         }
@@ -61,11 +65,47 @@ namespace Sunlight.ViewModel
                 _settings.ZipCode = value;
                 ZipCodeSearch.SearchTerm = value;
                 RaisePropertiesChanged("IsZipCodeValid");
+                _district = null;
+                RaisePropertiesChanged("District");
             }
         }
 
         public bool IsZipCodeValid { get { return !string.IsNullOrEmpty(ZipCode) && ZipCode.Length == 5; } }
 
         public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
+
+        private RemoteResult<dynamic> _district = new RemoteResult<dynamic>();
+        private bool _asking;
+        private dynamic _district;
+        public dynamic District
+        {
+            get
+            {
+                if (IsZipCodeValid && _district == null && !_asking)
+                {
+                    _asking = true;
+                    Task.Run<dynamic>(async () =>
+                    {
+                        return await _congress.GetFirstDistrict(ZipCode);
+                    }).ContinueWith((antecedent) =>
+                    {
+                        try
+                        {
+                            if (antecedent.Result != null)
+                            {
+                                _district = antecedent.Result;
+                                RaisePropertiesChanged("District");
+                            }
+                        }
+                        catch (Exception)
+                        {
+                        }
+                        _asking = false;
+                    });
+                }
+
+                return _district;
+            }
+        }
     }
 }

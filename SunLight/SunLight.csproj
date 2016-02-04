@@ -116,8 +116,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\About.cs" />
+    <Compile Include="Model\Congress.cs" />
     <Compile Include="Model\Credit.cs" />
     <Compile Include="Model\IAbout.cs" />
+    <Compile Include="Model\ICongress.cs" />
     <Compile Include="Model\ISettings.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\Settings.cs" />
