@@ -5,23 +5,24 @@ using System.Threading.Tasks;
 
 namespace Sunlight
 {
-    sealed class RemoteResult<T>
+    sealed class RemoteResult<T> where T : class
     {
         private sealed class Scope : IDisposable
         {
             private readonly RemoteResult<T> _parent;
+            private readonly bool _entered;
 
             public Scope(RemoteResult<T> parent)
             {
                 _parent = parent;
-                Entered = _parent.Enter();
+                _entered = _parent.Enter();
             }
 
-            public bool Entered { get; private set; }
+            public bool Entered => _entered;
 
             public void Dispose()
             {
-                if (Entered)
+                if (_entered)
                 {
                     _parent.Exit();
                 }
@@ -33,19 +34,23 @@ namespace Sunlight
 
         private int _waiting = NOT_WAITING;
 
-        private readonly T _sentinal;
+        private T _result;
+        private readonly T _notSetSentinal;
+        private AggregateException _exceptions;
 
-        public RemoteResult(T sentinal)
+        public RemoteResult(T notSetSentinal)
         {
-            Result = sentinal;
-            _sentinal = sentinal;
+            _result = notSetSentinal;
+            _notSetSentinal = notSetSentinal;
         }
 
-        public T Result { get; private set; }
+        public T Result => _result;
 
-        public AggregateException Exceptions { get; private set; }
+        public AggregateException Exceptions => _exceptions;
 
-        public bool IsFaulted => Exceptions != null;
+        public bool IsFaulted => _exceptions != null;
+
+        public bool IsSet => !object.ReferenceEquals(Result, _notSetSentinal);
 
         public void Reset()
         {
@@ -53,36 +58,38 @@ namespace Sunlight
             {
                 if (scope.Entered)
                 {
-                    Result = _sentinal;
-                    Exceptions = null;
+                    Interlocked.Exchange<T>(ref _result, _notSetSentinal);
+                    Interlocked.Exchange(ref _exceptions, null);
                 }
             }
         }
 
-        public async Task Execute(Func<bool> executeIf, Func<Task<T>> func, Action continuation = null)
+        public async Task Execute(Func<bool> executeIf, Func<Task<T>> func, Action continuation)
         {
+            Debug.Assert(executeIf != null);
+            Debug.Assert(func != null);
+            Debug.Assert(continuation != null);
+
             using (var scope = new Scope(this))
             {
-                if (scope.Entered && object.ReferenceEquals(Result, _sentinal) && executeIf())
+                if (scope.Entered && !IsSet && executeIf())
                 {
-                    await Task.Run<T>(async () => await func()).ContinueWith((antecedent) =>
-                    {
-                        try
+                    await Task.Run<T>(
+                        async () => await func())
+                        .ContinueWith((antecedent) =>
                         {
-                            Result = antecedent.Result;
-                        }
-                        catch (AggregateException e)
-                        {
-                            Debug.Assert(false, e.Message);
-                            Result = _sentinal;
-                            Exceptions = e;
-                        }
-
-                        if (continuation != null)
-                        {
-                            continuation();
-                        }
-                    });
+                            try
+                            {
+                                Interlocked.Exchange<T>(ref _result, antecedent.Result);
+                            }
+                            catch (AggregateException e)
+                            {
+                                Debug.Assert(false, e.Message);
+                                Interlocked.Exchange<T>(ref _result, _notSetSentinal);
+                                Interlocked.Exchange(ref _exceptions, e);
+                            }
+                        })
+                        .ContinueWith((antecedent) => continuation());
                 }
             }
         }

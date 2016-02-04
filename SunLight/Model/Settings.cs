@@ -43,11 +43,11 @@ namespace Sunlight.Model
 
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value) || value.Length != 5)
                 {
                     Remove("ZipCode");
                 }
-                else if (value.Length >= 5)
+                else 
                 {
                     SetValue("ZipCode", value);
                 }
