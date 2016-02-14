@@ -15,5 +15,17 @@
         <local:StringToImageConverter x:Key="StringToImageConverter"/>
         <local:IsNullConverter x:Key="IsNullConverter"/>
         <local:IsNotNullConverter x:Key="IsNotNullConverter"/>
+
+        <Style x:Key="ButtonStyleNoHighlighting" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

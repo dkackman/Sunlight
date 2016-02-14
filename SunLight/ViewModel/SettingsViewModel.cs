@@ -77,7 +77,7 @@ namespace Sunlight.ViewModel
 
         public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
 
-        private RemoteResult<dynamic> _district;
+        private readonly RemoteResult<dynamic> _district;
 
         public dynamic District
         {

@@ -13,17 +13,6 @@
     d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
-            <Style x:Key="ButtonStyleNoHighlighting" TargetType="Button">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="Transparent">
-                                <ContentPresenter VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <DataTemplate x:Key="ButtonItemTemplate">
                 <Button Command="{Binding Command}" Style="{StaticResource ButtonStyleNoHighlighting}" 
                         Margin="0" Height="44" BorderThickness="0" Padding="0">

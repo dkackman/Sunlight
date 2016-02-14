@@ -7,9 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    DataContext="{Binding RecentActivity, Source={StaticResource Locator}}"    
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12,0,12,0">
+        <TextBlock Style="{StaticResource HeaderTextBlockStyle}">US Congress</TextBlock>
         <Border DataContext="{Binding Settings, Source={StaticResource Locator}}"
             Visibility="{Binding IsZipCodeValid, Converter={StaticResource VisibilityConverter}, ConverterParameter=negate}"
             Margin="0,12,0,0" BorderBrush="Gray" BorderThickness="0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="12">
@@ -26,6 +28,31 @@
                 <Run>page.</Run>
             </TextBlock>
         </Border>
+        <Button Background="Transparent" Padding="0" BorderThickness="0.5" BorderBrush="{StaticResource ButtonBorderThemeBrush }">
+            <StackPanel>
+                <Grid Background="{StaticResource ListBoxItemPressedBackgroundThemeBrush}" Padding="3">
+                    <TextBlock Text="Upcoming bills" Style="{StaticResource CaptionTextBlockStyle}"/>
+                </Grid>
+                <TextBlock TextAlignment="Center" Text="{Binding UpcomingBills.count}" Style="{StaticResource HeaderTextBlockStyle}"/>
+
+            </StackPanel>
+        </Button>
+        <!--<GridView SelectionMode="None" IsItemClickEnabled="True" 
+                  ItemsSource="{Binding UpcomingBills}"
+                  Header="Upcoming Bills">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="3" Padding="3">
+                        <TextBlock Text="{Binding chamber}"/>
+                        <TextBlock Text="{Binding bill_id}"/>
+                        <TextBlock Text="{Binding legislative_day}"/>
+                        <HyperlinkButton NavigateUri="{Binding url}" Content="Details..."/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+
+
+        </GridView>-->
         <!--active bills
         upcoming votes
         nominations

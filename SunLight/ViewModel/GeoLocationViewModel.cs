@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Windows.Devices.Geolocation;
-
-using Sunlight.Model;
 using Sunlight.Service;
 
 namespace Sunlight.ViewModel
@@ -86,8 +82,8 @@ namespace Sunlight.ViewModel
             AccessStatus = await Geolocator.RequestAccessAsync();
             if (AccessStatus == GeolocationAccessStatus.Allowed)
             {
-                Geolocator geolocator = new Geolocator();
-                Geoposition pos = await geolocator.GetGeopositionAsync();
+                var geolocator = new Geolocator();
+                var pos = await geolocator.GetGeopositionAsync();
 
                 _location = pos.Coordinate.Point;
 
