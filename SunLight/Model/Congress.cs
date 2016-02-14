@@ -84,7 +84,10 @@ namespace Sunlight.Model
 
             // we squirrel away the request uri so that we can get subsequent pages later
             dynamic d = JsonConvert.DeserializeObject<ExpandoObject>(content);
-            d.page.uri = response.RequestMessage.RequestUri;
+            if (d.page != null)
+            {
+                d.page.uri = response.RequestMessage.RequestUri;
+            }
             response.Dispose();
             return d;
         }
