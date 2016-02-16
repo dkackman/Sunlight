@@ -40,6 +40,7 @@ namespace Sunlight.ViewModel
             // setup models
             SimpleIoc.Default.Register<IAbout, About>();
             SimpleIoc.Default.Register<ISettings>(() => new Settings(ApplicationData.Current.LocalSettings));
+            SimpleIoc.Default.Register<ICurrentCongressionalSession, CurrentCongressionalSession>(true); // race condition in here and I don't feel like building synchronization
             SimpleIoc.Default.Register<ICongress>(() =>
             {
                 var keys = SimpleIoc.Default.GetInstance<Keys>();

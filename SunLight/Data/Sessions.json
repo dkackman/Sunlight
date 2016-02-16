@@ -1,0 +1,29 @@
+﻿{
+  "AsOf": "Mon, 15 Feb 2016 00:00:00 GMT",
+  "Sessions": [
+    {
+      "Congress": "114th",
+      "Session": "first",
+      "Start": "2015-01-06",
+      "End": "2015-12-31"
+    },
+    {
+      "Congress": "114th",
+      "Session": "second",
+      "Start": "2016-01-01",
+      "End": "2017-01-02"
+    },
+    {
+      "Congress": "115th",
+      "Session": "first",
+      "Start": "2017-01-03",
+      "End": "2017-12-31"
+    },
+    {
+      "Congress": "115th",
+      "Session": "second",
+      "Start": "2018-01-01",
+      "End": "2019-01-03"
+    }
+  ]
+}

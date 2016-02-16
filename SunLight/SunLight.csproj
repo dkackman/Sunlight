@@ -92,6 +92,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Sessions.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -118,11 +119,14 @@
     <Compile Include="Model\About.cs" />
     <Compile Include="Model\Congress.cs" />
     <Compile Include="Model\Credit.cs" />
+    <Compile Include="Model\CurrentCongressionalSession.cs" />
     <Compile Include="Model\Extensions.cs" />
     <Compile Include="Model\IAbout.cs" />
     <Compile Include="Model\ICongress.cs" />
+    <Compile Include="Model\ICurrentCongressionalSession.cs" />
     <Compile Include="Model\ISettings.cs" />
     <Compile Include="Model\Link.cs" />
+    <Compile Include="Model\CongressionalSession.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\ZipCode.cs" />
     <Compile Include="Model\ZipCodeDb.cs" />

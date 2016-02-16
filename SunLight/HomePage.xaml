@@ -9,13 +9,16 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     DataContext="{Binding RecentActivity, Source={StaticResource Locator}}"    
     mc:Ignorable="d">
+    <Page.Resources>
 
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12,0,12,0">
-        <TextBlock Style="{StaticResource HeaderTextBlockStyle}">US Congress</TextBlock>
-        <Border DataContext="{Binding Settings, Source={StaticResource Locator}}"
+        <StackPanel>
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{Binding CongressionalSession}"/>
+            <Border x:Name="SettingsNeeded" DataContext="{Binding Settings, Source={StaticResource Locator}}"
             Visibility="{Binding IsZipCodeValid, Converter={StaticResource VisibilityConverter}, ConverterParameter=negate}"
             Margin="0,12,0,0" BorderBrush="Gray" BorderThickness="0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="12">
-            <TextBlock x:Name="GotoSettings">
+                <TextBlock x:Name="GotoSettings">
                 <Run>In order to see information about your representatives, set your location on the </Run>
                 <Hyperlink x:Name="SettingHyperLink" Click="SettingHyperLink_Click">
                     <!--<Interactivity:Interaction.Behaviors>                        
@@ -26,17 +29,24 @@
                     Settings
                 </Hyperlink>
                 <Run>page.</Run>
-            </TextBlock>
-        </Border>
-        <Button Background="Transparent" Padding="0" BorderThickness="0.5" BorderBrush="{StaticResource ButtonBorderThemeBrush }">
-            <StackPanel>
-                <Grid Background="{StaticResource ListBoxItemPressedBackgroundThemeBrush}" Padding="3">
-                    <TextBlock Text="Upcoming bills" Style="{StaticResource CaptionTextBlockStyle}"/>
-                </Grid>
-                <TextBlock TextAlignment="Center" Text="{Binding UpcomingBills.count}" Style="{StaticResource HeaderTextBlockStyle}"/>
-
-            </StackPanel>
-        </Button>
+                </TextBlock>
+            </Border>
+            <Button Background="Transparent" Padding="0" BorderThickness="0.5" BorderBrush="{StaticResource ButtonBorderThemeBrush }"
+                    Visibility="{Binding UpcomingBills, Converter={StaticResource NullToVisibilityConverter}}"
+                    Margin="0,12,0,0">
+                <Button.ContentTransitions>
+                    <TransitionCollection>
+                        <ContentThemeTransition/>
+                    </TransitionCollection>
+                </Button.ContentTransitions>
+                <StackPanel>
+                    <Grid Background="{StaticResource ListBoxItemPressedBackgroundThemeBrush}" Padding="3">
+                        <TextBlock Text="Upcoming bills" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    </Grid>
+                    <TextBlock TextAlignment="Center" Text="{Binding UpcomingBills.count}" Style="{StaticResource HeaderTextBlockStyle}"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
         <!--<GridView SelectionMode="None" IsItemClickEnabled="True" 
                   ItemsSource="{Binding UpcomingBills}"
                   Header="Upcoming Bills">

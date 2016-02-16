@@ -15,12 +15,15 @@ namespace Sunlight.ViewModel
     {
         private readonly ISettings _settings;
         private readonly ICongress _congress;
+        private readonly ICurrentCongressionalSession _currentSession;
 
-        public RecentActivityViewModel(ISettings settings, ICongress congress, INavigationService2 navigationService)
+        public RecentActivityViewModel(ISettings settings, ICongress congress, ICurrentCongressionalSession currentSession, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
             _congress = congress;
+            _currentSession = currentSession;
+
             _upcomingBills = new RemoteResult<dynamic>(async () => await _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
         }
 
@@ -35,6 +38,14 @@ namespace Sunlight.ViewModel
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
                 return _upcomingBills.Result;
+            }
+        }
+
+        public string CongressionalSession
+        {
+            get
+            {
+                return _currentSession.Current.ToString();
             }
         }
     }
