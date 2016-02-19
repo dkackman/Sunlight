@@ -62,6 +62,12 @@
                         </Maps:MapControl.Children>
                     </Maps:MapControl>
                     <StackPanel Grid.Column="1" Grid.Row="1" Margin="24,0,0,0" Visibility="{Binding District, Converter={StaticResource NullToVisibilityConverter}}">
+                        <StackPanel.ChildrenTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition/>
+                            </TransitionCollection>
+                        </StackPanel.ChildrenTransitions>
+
                         <TextBlock Text="District" Style="{StaticResource SubtitleTextBlockStyle}"/>
                         <TextBlock Text="{Binding District.state}"/>
                         <TextBlock Text="{Binding District.district}"/>

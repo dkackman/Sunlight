@@ -23,9 +23,9 @@ namespace Sunlight.ViewModel
             // setup app services
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<Keys>();
+            var keys = SimpleIoc.Default.GetInstance<Keys>();
             SimpleIoc.Default.Register<IGeoCoder>(() =>
             {
-                var keys = SimpleIoc.Default.GetInstance<Keys>();
                 return new GeoCoder(keys.Data.BingLocations);
             });
             SimpleIoc.Default.Register<INavigationService2>(() =>
@@ -43,7 +43,6 @@ namespace Sunlight.ViewModel
             SimpleIoc.Default.Register<ICurrentCongressionalSession, CurrentCongressionalSession>(true); // race condition in here and I don't feel like building synchronization
             SimpleIoc.Default.Register<ICongress>(() =>
             {
-                var keys = SimpleIoc.Default.GetInstance<Keys>();
                 return new Congress((string)keys.Data.Sunlight);
             });
 

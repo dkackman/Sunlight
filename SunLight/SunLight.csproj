@@ -127,6 +127,7 @@
     <Compile Include="Model\ISettings.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Model\CongressionalSession.cs" />
+    <Compile Include="Model\Location.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\ZipCode.cs" />
     <Compile Include="Model\ZipCodeDb.cs" />

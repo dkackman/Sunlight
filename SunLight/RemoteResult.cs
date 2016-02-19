@@ -7,28 +7,6 @@ namespace Sunlight
 {
     sealed class RemoteResult<T> where T : class
     {
-        private sealed class Scope : IDisposable
-        {
-            private readonly RemoteResult<T> _parent;
-            private readonly bool _entered;
-
-            public Scope(RemoteResult<T> parent)
-            {
-                _parent = parent;
-                _entered = _parent.Enter();
-            }
-
-            public bool Entered => _entered;
-
-            public void Dispose()
-            {
-                if (_entered)
-                {
-                    _parent.Exit();
-                }
-            }
-        }
-
         private const int WAITING = 1;
         private const int NOT_WAITING = 0;
 
@@ -40,7 +18,7 @@ namespace Sunlight
         private readonly Func<Task<T>> _func;
         private readonly Action _continuation;
 
-        public RemoteResult(Func<Task<T>> func, Action continuation,T notSetSentinal)
+        public RemoteResult(Func<Task<T>> func, Action continuation, T notSetSentinal)
         {
             Debug.Assert(func != null);
             Debug.Assert(continuation != null);
@@ -61,39 +39,38 @@ namespace Sunlight
 
         public void Reset()
         {
-            using (var scope = new Scope(this))
+            if (Enter())
             {
-                if (scope.Entered)
-                {
-                    Interlocked.Exchange<T>(ref _result, _notSetSentinal);
-                    Interlocked.Exchange(ref _exceptions, null);
-                }
+                Interlocked.Exchange(ref _result, _notSetSentinal);
+                Interlocked.Exchange(ref _exceptions, null);
+                Exit();
+                Task.Run(_continuation);
             }
         }
 
-        public async Task Execute()
+        public void Execute()
         {
-            using (var scope = new Scope(this))
+            if (!IsSet && !IsFaulted && Enter())
             {
-                if (scope.Entered && !IsSet && !IsFaulted)
-                {
-                    await Task.Run<T>(
-                        async () => await _func())
-                        .ContinueWith((antecedent) =>
+                Task.Run<T>(async () => await _func())
+                    .ContinueWith((antecedent) =>
+                    {
+                        try
                         {
-                            try
-                            {
-                                Interlocked.Exchange<T>(ref _result, antecedent.Result);
-                            }
-                            catch (AggregateException e)
-                            {
-                                Debug.Assert(false, e.Message);
-                                Interlocked.Exchange<T>(ref _result, _notSetSentinal);
-                                Interlocked.Exchange(ref _exceptions, e);
-                            }
-                        })
-                        .ContinueWith((antecedent) => _continuation());
-                }
+                            Interlocked.Exchange<T>(ref _result, antecedent.Result);
+                        }
+                        catch (AggregateException e)
+                        {
+                            Debug.Assert(false, e.Message);
+                            Interlocked.Exchange(ref _result, _notSetSentinal);
+                            Interlocked.Exchange(ref _exceptions, e);
+                        }
+                        finally
+                        {
+                            Exit();
+                        }
+                    })
+                    .ContinueWith((antecedent) => _continuation());
             }
         }
 

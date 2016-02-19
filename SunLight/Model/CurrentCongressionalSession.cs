@@ -18,7 +18,9 @@ namespace Sunlight.Model
 
         public CurrentCongressionalSession()
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Load();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private async Task Load()
@@ -30,10 +32,10 @@ namespace Sunlight.Model
 
             var now = DateTime.UtcNow;
             var current = (from session in _data.Sessions
-                          where session.Start <= now && session.End >= now
-                          select session).FirstOrDefault();
+                           where session.Start <= now && session.End >= now
+                           select session).FirstOrDefault();
 
-            if(current == null)
+            if (current == null)
             {
                 throw new InvalidDataException("Congressional session data is out of date");
             }

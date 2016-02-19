@@ -2,16 +2,37 @@
 using System.Diagnostics;
 
 using Windows.Storage;
+using Windows.Foundation.Collections;
 
 namespace Sunlight.Model
 {
     sealed class Settings : ISettings
     {
-        private readonly ApplicationDataContainer _container;
+        private readonly IPropertySet _properties;
 
         public Settings(ApplicationDataContainer container)
         {
-            _container = container;
+            _properties = container.Values;
+        }
+
+        public Location Location
+        {
+            get
+            {
+                return GetValue<Location>("Location", null);
+            }
+
+            set
+            {
+                if (value?.IsValid == true)
+                {
+                    SetValue("Location", value);
+                }
+                else
+                {
+                    Remove("Location");
+                }
+            }
         }
 
         public string Theme
@@ -34,33 +55,33 @@ namespace Sunlight.Model
             }
         }
 
-        public string ZipCode
-        {
-            get
-            {
-                return GetValue<string>("ZipCode", "");
-            }
+        //public string ZipCode
+        //{
+        //    get
+        //    {
+        //        return GetValue("ZipCode", "");
+        //    }
 
-            set
-            {
-                if (string.IsNullOrEmpty(value) || value.Length != 5)
-                {
-                    Remove("ZipCode");
-                }
-                else 
-                {
-                    SetValue("ZipCode", value);
-                }
-            }
-        }
+        //    set
+        //    {
+        //        if (string.IsNullOrEmpty(value) || value.Length != 5)
+        //        {
+        //            Remove("ZipCode");
+        //        }
+        //        else
+        //        {
+        //            SetValue("ZipCode", value);
+        //        }
+        //    }
+        //}
 
         public T GetValue<T>(string key, T defaultValue)
         {
             try
             {
-                if (_container.Values.ContainsKey(key))
+                if (_properties.ContainsKey(key))
                 {
-                    return (T)_container.Values[key];
+                    return (T)_properties[key];
                 }
             }
             catch (Exception e)
@@ -72,15 +93,15 @@ namespace Sunlight.Model
 
         public void Remove(string key)
         {
-            if (_container.Values.ContainsKey(key))
+            if (_properties.ContainsKey(key))
             {
-                _container.Values.Remove(key);
+                _properties.Remove(key);
             }
         }
 
         public void SetValue(string key, object value)
         {
-            _container.Values[key] = value;
+            _properties[key] = value;
         }
     }
 }

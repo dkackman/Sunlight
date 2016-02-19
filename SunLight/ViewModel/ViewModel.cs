@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Views;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 
 using Sunlight.Service;

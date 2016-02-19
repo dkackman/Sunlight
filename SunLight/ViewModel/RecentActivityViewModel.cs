@@ -24,7 +24,7 @@ namespace Sunlight.ViewModel
             _congress = congress;
             _currentSession = currentSession;
 
-            _upcomingBills = new RemoteResult<dynamic>(async () => await _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
+            _upcomingBills = new RemoteResult<dynamic>( () => _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
         }
 
         private readonly RemoteResult<dynamic> _upcomingBills;
