@@ -52,7 +52,7 @@ namespace Sunlight
         {
             if (!IsSet && !IsFaulted && Enter())
             {
-                Task.Run<T>(async () => await _func())
+                Task.Run<T>(_func)
                     .ContinueWith((antecedent) =>
                     {
                         try

@@ -24,18 +24,15 @@ namespace Sunlight.ViewModel
             _congress = congress;
             _currentSession = currentSession;
 
-            _upcomingBills = new RemoteResult<dynamic>( () => _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
+            _upcomingBills = new RemoteResult<dynamic>(() => _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
         }
 
         private readonly RemoteResult<dynamic> _upcomingBills;
-
         public dynamic UpcomingBills
         {
             get
             {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 _upcomingBills.Execute();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
                 return _upcomingBills.Result;
             }
