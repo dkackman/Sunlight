@@ -18,9 +18,11 @@ namespace Sunlight.ViewModel
         public GeoLocationViewModel(Keys keys, INavigationService2 navigationService)
             : base(navigationService)
         {
-            var b = new BasicGeoposition();
-            b.Latitude = 0;
-            b.Longitude = 0;
+            var b = new BasicGeoposition()
+            {
+                Latitude = 0,
+                Longitude = 0
+            };
             _location = new Geopoint(b);
 
             _keys = keys;
@@ -72,7 +74,19 @@ namespace Sunlight.ViewModel
         public Geopoint Location
         {
             get { return _location; }
-            set { }
+            set { } // prevent map scrolling from setting this
+        }
+
+        public void SetLocation(double lat, double @long)
+        {
+            var b = new BasicGeoposition()
+            {
+                Latitude = lat,
+                Longitude = @long
+            };
+            _location = new Geopoint(b);
+            RaisePropertiesChanged("Location");
+            RaisePropertyChangedOnUI("ShowLocation");
         }
 
         public string Token { get { return _keys.Data.BingMaps; } }

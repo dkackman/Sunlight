@@ -19,5 +19,10 @@ namespace Sunlight.Model
                 return (!string.IsNullOrEmpty(ZipCode) && ZipCode.Length == 5) || (Lat != 0 && Long != 0);
             }
         }
+
+        public static bool IsValidZip(string zip)
+        {
+            return !string.IsNullOrWhiteSpace(zip) && zip.Length == 5;
+        }
     }
 }

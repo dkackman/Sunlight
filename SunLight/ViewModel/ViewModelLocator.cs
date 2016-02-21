@@ -26,7 +26,7 @@ namespace Sunlight.ViewModel
             var keys = SimpleIoc.Default.GetInstance<Keys>();
             SimpleIoc.Default.Register<IGeoCoder>(() =>
             {
-                return new GeoCoder(keys.Data.BingLocations);
+                return new GeoCoder((string)keys.Data.BingLocations);
             });
             SimpleIoc.Default.Register<INavigationService2>(() =>
             {

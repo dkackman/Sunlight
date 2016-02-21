@@ -9,7 +9,6 @@
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.0.3",
     "MvvmLight": "5.2.0",
     "Newtonsoft.Json": "8.0.2",
-    "PortableBingGeoCoder": "1.0.7",
     "WinRTXamlToolkit.UWP": "1.9.4"
   },
   "frameworks": {

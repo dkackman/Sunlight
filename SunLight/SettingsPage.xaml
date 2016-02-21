@@ -49,7 +49,7 @@
                             ToolTipService.ToolTip="Detect your location"/>
                     </StackPanel>
                     <Maps:MapControl Grid.Column="0" Grid.Row="1" Margin="0,12,0,0"
-                            DataContext="{Binding GeoLocation}" Name="MyMapControl" ZoomLevel="14"
+                            DataContext="{Binding GeoLocation}" Name="MyMapControl" ZoomLevel="13"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             Center="{Binding Location, Mode=TwoWay}"
                             Visibility="{Binding ShowLocation, Converter={StaticResource VisibilityConverter}}"                                       

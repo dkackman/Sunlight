@@ -16,8 +16,8 @@
         <StackPanel>
             <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{Binding CongressionalSession}"/>
             <Border x:Name="SettingsNeeded" DataContext="{Binding Settings, Source={StaticResource Locator}}"
-            Visibility="{Binding IsLocationValid, Converter={StaticResource VisibilityConverter}, ConverterParameter=negate}"
-            Margin="0,12,0,0" BorderBrush="Gray" BorderThickness="0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="12">
+                Visibility="{Binding SettingsValid, Converter={StaticResource VisibilityConverter}, ConverterParameter=negate}"
+                Margin="0,12,0,0" BorderBrush="Gray" BorderThickness="0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="12">
                 <TextBlock x:Name="GotoSettings">
                 <Run>In order to see information about your representatives, set your location on the </Run>
                 <Hyperlink x:Name="SettingHyperLink" Click="SettingHyperLink_Click">

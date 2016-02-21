@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BingGeocoder;
 
 using GalaSoft.MvvmLight.Command;
 
@@ -15,16 +16,22 @@ namespace Sunlight.ViewModel
         private readonly ICongress _congress;
         private readonly ZipCodeSearchViewModel _zipSearchVm;
         private readonly GeoLocationViewModel _geoVM;
-        private readonly Location _location;
+        private readonly IGeoCoder _locator;
 
-        public SettingsViewModel(ISettings settings, Keys keys, ICongress congress, INavigationService2 navigationService)
+        public SettingsViewModel(ISettings settings, Keys keys, IGeoCoder locator, ICongress congress, INavigationService2 navigationService)
             : base(navigationService)
         {
             _settings = settings;
             _congress = congress;
             _zipSearchVm = new ZipCodeSearchViewModel(navigationService);
             _geoVM = new GeoLocationViewModel(keys, navigationService);
-            _location = _settings.Location ?? new Location();
+            _locator = locator;
+
+            var location = _settings.Location;
+            if(location != null)
+            {
+                _zipcode = location.ZipCode;
+            }
 
             _district = new RemoteResult<dynamic>(() => _congress.GetFirstDistrict(ZipCode), () => RaisePropertiesChanged("District"), null);
         }
@@ -51,11 +58,12 @@ namespace Sunlight.ViewModel
             }
         }
 
+        private string _zipcode;
         public string ZipCode
         {
             get
             {
-                return _location.ZipCode;
+                return _zipcode;
             }
             set
             {
@@ -65,17 +73,36 @@ namespace Sunlight.ViewModel
                     // it strips out the zip and just remembers that
                     value = value.Split(' ')[0];
                 }
-
-                _location.ZipCode = value;
-                ZipCodeSearch.SearchTerm = value;
+                _zipcode = value;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                SetLocationFromZip();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                ZipCodeSearch.SearchTerm = _zipcode;
                 _district.Reset();
 
                 RaisePropertiesChanged("IsLocationValid");
             }
         }
 
-        public bool IsLocationValid => _location.IsValid;
-        
+        private async Task SetLocationFromZip()
+        {
+            if (Location.IsValidZip(_zipcode))
+            {
+                var coord = await _locator.GetCoordinate("", "", "", _zipcode, "US");
+
+                _geoVM.SetLocation(coord.Item1, coord.Item2);
+                var location = new Location()
+                {
+                    ZipCode = _zipcode,
+                    Lat = coord.Item1,
+                    Long = coord.Item2
+                };
+                _settings.Location = location;
+            }
+        }
+
+        public bool SettingsValid => _settings.Location != null;
+
         public IEnumerable<string> ThemeList => new List<string>() { "Light", "Dark" };
 
         private readonly RemoteResult<dynamic> _district;
@@ -84,7 +111,7 @@ namespace Sunlight.ViewModel
         {
             get
             {
-                if (IsLocationValid)
+                if (Location.IsValidZip(_zipcode))
                 {
                     _district.Execute();
                 }

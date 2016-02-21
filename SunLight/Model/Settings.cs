@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 
 using Windows.Storage;
 using Windows.Foundation.Collections;
+
+using Newtonsoft.Json;
 
 namespace Sunlight.Model
 {
@@ -44,7 +47,7 @@ namespace Sunlight.Model
 
             set
             {
-                if (value != null && (value.Equals("Light", StringComparison.OrdinalIgnoreCase) || value.Equals("Dark", StringComparison.OrdinalIgnoreCase)))
+                if ("Light".Equals(value, StringComparison.OrdinalIgnoreCase) || "Dark".Equals(value, StringComparison.OrdinalIgnoreCase))
                 {
                     SetValue("Theme", value);
                 }
@@ -55,33 +58,19 @@ namespace Sunlight.Model
             }
         }
 
-        //public string ZipCode
-        //{
-        //    get
-        //    {
-        //        return GetValue("ZipCode", "");
-        //    }
-
-        //    set
-        //    {
-        //        if (string.IsNullOrEmpty(value) || value.Length != 5)
-        //        {
-        //            Remove("ZipCode");
-        //        }
-        //        else
-        //        {
-        //            SetValue("ZipCode", value);
-        //        }
-        //    }
-        //}
-
         public T GetValue<T>(string key, T defaultValue)
         {
             try
             {
                 if (_properties.ContainsKey(key))
                 {
-                    return (T)_properties[key];
+                    var value = _properties[key];
+                    if (typeof(T) != typeof(string) && !typeof(T).GetTypeInfo().IsPrimitive)
+                    {
+                        return JsonConvert.DeserializeObject<T>(value.ToString());
+                    }
+
+                    return (T)value;
                 }
             }
             catch (Exception e)
@@ -99,9 +88,17 @@ namespace Sunlight.Model
             }
         }
 
-        public void SetValue(string key, object value)
+        public void SetValue<T>(string key, T value)
         {
-            _properties[key] = value;
+            if (typeof(T) != typeof(string) && !typeof(T).GetTypeInfo().IsPrimitive)
+            {
+                var json = JsonConvert.SerializeObject(value);
+                SetValue<string>(key, json);
+            }
+            else
+            {
+                _properties[key] = value;
+            }
         }
     }
 }
