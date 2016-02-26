@@ -6,6 +6,27 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Sunlight
 {
+    sealed class PropertyToUrlConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+
+            string property = value as string;
+            string urlTemplate = parameter as string;
+            if (!string.IsNullOrWhiteSpace(property) && !string.IsNullOrWhiteSpace(urlTemplate))
+            {
+                return string.Format(urlTemplate, property);
+            }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     sealed class StringToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string culture)

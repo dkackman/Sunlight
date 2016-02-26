@@ -9,6 +9,7 @@
     <Application.Resources>
         <!--Global View Model Locator-->
         <vm:ViewModelLocator x:Key="Locator" />
+        <local:PropertyToUrlConverter x:Key="PropertyToUrlConverter"/>
         <local:VisibilityConverter x:Key="VisibilityConverter"/>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>

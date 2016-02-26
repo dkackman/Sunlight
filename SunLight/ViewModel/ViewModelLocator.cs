@@ -50,7 +50,7 @@ namespace Sunlight.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AboutViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
-            SimpleIoc.Default.Register<RecentActivityViewModel>();
+            SimpleIoc.Default.Register<HomeViewModel>();
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
@@ -67,6 +67,6 @@ namespace Sunlight.ViewModel
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public RecentActivityViewModel RecentActivity => ServiceLocator.Current.GetInstance<RecentActivityViewModel>();
+        public HomeViewModel Home => ServiceLocator.Current.GetInstance<HomeViewModel>();
     }
 }

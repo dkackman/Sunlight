@@ -17,7 +17,7 @@ namespace Sunlight
         private AggregateException _exceptions;
         private readonly Func<Task<T>> _func;
         private readonly Action _continuation;
-        
+
         public RemoteResult(Func<Task<T>> func, Action continuation, T notSetSentinal)
         {
             Debug.Assert(func != null);
@@ -62,36 +62,35 @@ namespace Sunlight
         {
             if (!IsSet && !IsFaulted && Enter())
             {
-                Task.Run<T>(_func, cancellationToken)
-                    .ContinueWith((antecedent) =>
+                Task.Run(async () =>
+                {
+                    try
                     {
-                        try
-                        {
-                            antecedent.Wait(cancellationToken);
-                            Interlocked.Exchange<T>(ref _result, antecedent.Result);
-                        }
-                        catch (AggregateException e)
-                        {
-                            Debug.Assert(false, e.Message);
-                            Interlocked.Exchange(ref _result, _notSetSentinal);
-                            Interlocked.Exchange(ref _exceptions, e);
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            ResetState();
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.Assert(false, e.Message);
-                            Interlocked.Exchange(ref _result, _notSetSentinal);
-                            Interlocked.Exchange(ref _exceptions, new AggregateException(e));
-                        }
-                        finally
-                        {
-                            Exit();
-                        }
-                    })
-                    .ContinueWith((antecedent) => _continuation());
+                        T t = await _func();
+                        Interlocked.Exchange<T>(ref _result, t);
+                    }
+                    catch (AggregateException e)
+                    {
+                        Debug.Assert(false, e.Message);
+                        Interlocked.Exchange(ref _result, _notSetSentinal);
+                        Interlocked.Exchange(ref _exceptions, e);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        ResetState();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Assert(false, e.Message);
+                        Interlocked.Exchange(ref _result, _notSetSentinal);
+                        Interlocked.Exchange(ref _exceptions, new AggregateException(e));
+                    }
+                    finally
+                    {
+                        Exit();
+                    }
+                })
+                .ContinueWith((antecedent) => _continuation());
             }
         }
 

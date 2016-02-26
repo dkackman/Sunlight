@@ -29,10 +29,7 @@ namespace Sunlight
             }
         }
 
-        public bool IsEnabled
-        {
-            get { return !_isSelected; }
-        }
+        public bool IsEnabled => !_isSelected;
 
         private void RaisePropertyChanged(string property)
         {

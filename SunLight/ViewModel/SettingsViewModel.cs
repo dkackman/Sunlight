@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Dynamic;
+
 using BingGeocoder;
 
 using GalaSoft.MvvmLight.Command;
@@ -17,6 +19,7 @@ namespace Sunlight.ViewModel
         private readonly ZipCodeSearchViewModel _zipSearchVm;
         private readonly GeoLocationViewModel _geoVM;
         private readonly IGeoCoder _locator;
+        private Location _location;
 
         public SettingsViewModel(ISettings settings, Keys keys, IGeoCoder locator, ICongress congress, INavigationService2 navigationService)
             : base(navigationService)
@@ -27,13 +30,14 @@ namespace Sunlight.ViewModel
             _geoVM = new GeoLocationViewModel(keys, navigationService);
             _locator = locator;
 
-            var location = _settings.Location;
-            if(location != null)
+            _location = _settings.Location;
+            if (_location != null)
             {
-                _zipcode = location.ZipCode;
+                _zipcode = _location.ZipCode;
             }
 
-            _district = new RemoteResult<dynamic>(() => _congress.GetFirstDistrict(ZipCode), () => RaisePropertiesChanged("District"), null);
+            _district = new RemoteResult<dynamic>(() => _congress.FindFirstDistrict(_location.Lat, _location.Long), 
+                () => RaisePropertiesChanged("District"), new ExpandoObject());
         }
 
         public RelayCommand GoToSettingsCommand => new RelayCommand(() => NavigateTo("Settings"));
@@ -78,7 +82,6 @@ namespace Sunlight.ViewModel
                 SetLocationFromZip();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 ZipCodeSearch.SearchTerm = _zipcode;
-                _district.Reset();
 
                 RaisePropertiesChanged("IsLocationValid");
             }
@@ -86,19 +89,21 @@ namespace Sunlight.ViewModel
 
         private async Task SetLocationFromZip()
         {
-            if (Location.IsValidZip(_zipcode))
+            if (_zipSearchVm.IsValidZip(_zipcode))
             {
                 var coord = await _locator.GetCoordinate("", "", "", _zipcode, "US");
 
                 _geoVM.SetLocation(coord.Item1, coord.Item2);
-                var location = new Location()
+                _location = new Location()
                 {
                     ZipCode = _zipcode,
                     Lat = coord.Item1,
                     Long = coord.Item2
                 };
-                _settings.Location = location;
+
+                _settings.Location = _location;
             }
+            _district.Reset();
         }
 
         public bool SettingsValid => _settings.Location != null;
@@ -111,7 +116,7 @@ namespace Sunlight.ViewModel
         {
             get
             {
-                if (Location.IsValidZip(_zipcode))
+                if (SettingsValid)
                 {
                     _district.Execute();
                 }

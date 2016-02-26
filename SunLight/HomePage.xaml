@@ -7,28 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    DataContext="{Binding RecentActivity, Source={StaticResource Locator}}"    
+    DataContext="{Binding Home, Source={StaticResource Locator}}"    
     mc:Ignorable="d">
-    <Page.Resources>
 
-    </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12,0,12,0">
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12,0,12,0"
+                  VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{Binding CongressionalSession}"/>
             <Border x:Name="SettingsNeeded" DataContext="{Binding Settings, Source={StaticResource Locator}}"
                 Visibility="{Binding SettingsValid, Converter={StaticResource VisibilityConverter}, ConverterParameter=negate}"
                 Margin="0,12,0,0" BorderBrush="Gray" BorderThickness="0.5" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="12">
                 <TextBlock x:Name="GotoSettings">
-                <Run>In order to see information about your representatives, set your location on the </Run>
-                <Hyperlink x:Name="SettingHyperLink" Click="SettingHyperLink_Click">
-                    <!--<Interactivity:Interaction.Behaviors>                        
-                        <Core:EventTriggerBehavior EventName="Click" SourceObject="{Binding ElementName=SettingHyperLink}">
-                            <Core:InvokeCommandAction Command="{Binding DataContext.GoToSettingsCommand, ElementName=GotoSettings}"/>
-                        </Core:EventTriggerBehavior>
-                    </Interactivity:Interaction.Behaviors>-->
-                    Settings
-                </Hyperlink>
-                <Run>page.</Run>
+                    <Run>In order to see information about your representatives, set your location on the </Run>
+                    <Hyperlink x:Name="SettingHyperLink" Click="SettingHyperLink_Click">Settings</Hyperlink>
+                    <Run>page.</Run>
                 </TextBlock>
             </Border>
             <Button Background="Transparent" Padding="0" BorderThickness="0.5" BorderBrush="{StaticResource ButtonBorderThemeBrush }"
@@ -46,28 +38,50 @@
                     <TextBlock TextAlignment="Center" Text="{Binding UpcomingBills.count}" Style="{StaticResource HeaderTextBlockStyle}"/>
                 </StackPanel>
             </Button>
+
+            <GridView SelectionMode="None" IsItemClickEnabled="False" Padding="0,12,0,0"
+                  ItemsSource="{Binding Legislators.results}"
+                  Header="Your Legislators">
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="6" Padding="3">
+                            <StackPanel.Transitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition/>
+                                </TransitionCollection>
+                            </StackPanel.Transitions>
+                            <Image Height="64" Width="64"
+                                Source="{Binding facebook_id, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='http://graph.facebook.com/{0}/picture'}"/>
+                            <TextBlock>
+                                <Run Text="{Binding first_name}"/> <Run Text="{Binding last_name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="{Binding chamber}"/> - <Run Text="{Binding party}"/>
+                            </TextBlock>
+                            <HyperlinkButton NavigateUri="{Binding phone, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='phone:{0}'}" 
+                                             Content="{Binding phone}"/>
+                            <HyperlinkButton NavigateUri="{Binding website}" Content="Website"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
+                                       Visibility="{Binding oc_email, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
+                                       Visibility="{Binding twitter_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
+                                       Visibility="{Binding youtube_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
+                                       Visibility="{Binding facebook_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </StackPanel>
-        <!--<GridView SelectionMode="None" IsItemClickEnabled="True" 
-                  ItemsSource="{Binding UpcomingBills}"
-                  Header="Upcoming Bills">
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="3" Padding="3">
-                        <TextBlock Text="{Binding chamber}"/>
-                        <TextBlock Text="{Binding bill_id}"/>
-                        <TextBlock Text="{Binding legislative_day}"/>
-                        <HyperlinkButton NavigateUri="{Binding url}" Content="Details..."/>
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-
-
-        </GridView>-->
         <!--active bills
         upcoming votes
         nominations
         floor updates
         hearings
         upcoming bills-->
-    </Grid>
+    </ScrollViewer>
+
 </Page>

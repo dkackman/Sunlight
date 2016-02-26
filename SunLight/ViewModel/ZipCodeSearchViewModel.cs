@@ -41,6 +41,16 @@ namespace Sunlight.ViewModel
             }
         }
 
+        public bool IsValidZipFormat(string zip)
+        {
+            return zip != null && zip.Length == 5;
+        }
+
+        public bool IsValidZip(string zip)
+        {
+            return IsValidZipFormat(zip) && _zipCodes.Find(zip).Any();
+        }
+
         public bool NoResults
         {
             get { return _matches != null && !_matches.Any(); }

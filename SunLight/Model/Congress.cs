@@ -45,13 +45,32 @@ namespace Sunlight.Model
             return await _client(uri.LocalPath).get(p: args);
         }
 
-        public async Task<dynamic> GetDistricts(string zipCode)
+        public async Task<dynamic> FindLegislators(double lat, double @long)
+        {
+            return await _client.districts.legislators.locate.get(latitude: lat, longitude: @long);
+        }
+        public async Task<dynamic> GetLegislator(string bioguide_id)
+        {
+            return await _client.districts.legislators.get(bioguide_id: bioguide_id);
+        }
+
+        public async Task<dynamic> FindDistricts(string zipCode)
         {
             return await _client.districts.locate.get(zip: zipCode);
         }
-        public async Task<dynamic> GetFirstDistrict(string zipCode)
+        public async Task<dynamic> FindFirstDistrict(string zipCode)
         {
-            dynamic list = await GetDistricts(zipCode);
+            dynamic list = await FindDistricts(zipCode);
+            return list.count > 0 ? list.results[0] : null;
+        }
+
+        public async Task<dynamic> FindDistricts(double lat, double @long)
+        {
+            return await _client.districts.locate.get(latitude: lat, longitude: @long);
+        }
+        public async Task<dynamic> FindFirstDistrict(double lat, double @long)
+        {
+            dynamic list = await FindDistricts(lat, @long);
             return list.count > 0 ? list.results[0] : null;
         }
 
