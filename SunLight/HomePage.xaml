@@ -53,22 +53,26 @@
                             <Image Height="64" Width="64"
                                 Source="{Binding facebook_id, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='http://graph.facebook.com/{0}/picture'}"/>
                             <TextBlock>
-                                <Run Text="{Binding first_name}"/> <Run Text="{Binding last_name}"/>
+                                 <Run Text="{Binding title}"/> <Run Text="{Binding first_name}"/> <Run Text="{Binding last_name}"/>
                             </TextBlock>
                             <TextBlock>
-                                <Run Text="{Binding chamber}"/> - <Run Text="{Binding party}"/>
+                                <Run Text="{Binding chamber}"/> - <Run Text="{Binding party}"/> <Run Text="{Binding state_name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="{Binding office}"/>
                             </TextBlock>
                             <HyperlinkButton NavigateUri="{Binding phone, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='phone:{0}'}" 
                                              Content="{Binding phone}"/>
-                            <HyperlinkButton NavigateUri="{Binding website}" Content="Website"/>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
+                                <Image Source="ms-appx:///Assets/www.jpg" Width="32" Height="32"
+                                       Visibility="{Binding website, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
                                        Visibility="{Binding oc_email, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
+                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
                                        Visibility="{Binding twitter_id, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
+                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
                                        Visibility="{Binding youtube_id, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="6,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
+                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
                                        Visibility="{Binding facebook_id, Converter={StaticResource NullToVisibilityConverter}}"/>
                             </StackPanel>
                         </StackPanel>

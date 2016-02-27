@@ -42,7 +42,7 @@ namespace Sunlight.Model
         {
             get
             {
-                return GetValue<string>("Theme", "Dark");
+                return GetValue<string>("Theme", "Light");
             }
 
             set

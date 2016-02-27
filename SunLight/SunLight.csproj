@@ -94,6 +94,7 @@
     </Content>
     <Content Include="Assets\facebook-logo-nuevo.png" />
     <Content Include="Assets\logo_youtube.png" />
+    <Content Include="Assets\www.jpg" />
     <Content Include="Assets\twitter-logo.png" />
     <Content Include="Assets\url7.jpg" />
     <Content Include="Data\Sessions.json" />
