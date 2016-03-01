@@ -3,6 +3,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
@@ -38,6 +39,14 @@ namespace Sunlight.Service
 
         private void _root_Navigated(object sender, NavigationEventArgs e)
         {
+            // here we set the datacontext of our new page to the state object passed to NavigateTo
+            var f = e.Content as FrameworkElement;
+            if (f != null && e.Parameter != null)
+            {
+                f.DataContext = e.Parameter;
+                
+            }
+
             if (Root.CanGoBack)
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;

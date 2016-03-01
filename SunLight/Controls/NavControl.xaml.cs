@@ -25,13 +25,5 @@ namespace Sunlight.Controls
                 n.Root = this.MainFrame;
             }
         }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            foreach (var item in MainItems.Items)
-            {
-                
-            }
-        }
     }
 }

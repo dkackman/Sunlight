@@ -26,7 +26,15 @@ namespace Sunlight.ViewModel
 
             _upcomingBills = new RemoteResult<dynamic>(() => _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
             _legislators = new RemoteResult<dynamic>(() => _congress.FindLegislators(_settings.Location.Lat, _settings.Location.Long), () => RaisePropertiesChanged("Legislators"), null);
+
+            SelectCommand = new RelayCommand<object>(o =>
+            {
+                var vm = new DynamicViewModel(_navigationService, o);
+                NavigateTo("LegislatorDetail", vm);
+            });
         }
+
+        public RelayCommand<object> SelectCommand { get; private set; }
 
         private readonly RemoteResult<dynamic> _upcomingBills;
         public dynamic UpcomingBills

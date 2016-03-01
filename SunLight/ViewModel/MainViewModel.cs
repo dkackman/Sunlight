@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 
 using Windows.System;
@@ -71,13 +72,7 @@ namespace Sunlight.ViewModel
 
         private void NavigationService_Navigated(object sender, EventArgs e)
         {
-            foreach (var nav in MainNavItems)
-            {
-                nav.Command.RaiseCanExecuteChanged();
-                nav.IsSelected = ActivePage == nav.Text;
-            }
-
-            foreach (var nav in SecondaryNavItems)
+            foreach (var nav in MainNavItems.Concat(SecondaryNavItems))
             {
                 nav.Command.RaiseCanExecuteChanged();
                 nav.IsSelected = ActivePage == nav.Text;

@@ -12,7 +12,7 @@ namespace Sunlight.ViewModel
             DispatcherHelper.Initialize();
         }
 
-        private readonly INavigationService2 _navigationService;
+        protected readonly INavigationService2 _navigationService;
 
         protected ViewModel(INavigationService2 navigationService)
         {

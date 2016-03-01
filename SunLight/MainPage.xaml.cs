@@ -15,8 +15,6 @@ namespace Sunlight
         public MainPage()
         {
             this.InitializeComponent();
-
-
         }
     }
 }

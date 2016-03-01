@@ -33,6 +33,7 @@ namespace Sunlight.ViewModel
                 var nav = new Sunlight.Service.NavigationService();
                 nav.Configure("Home", typeof(HomePage));
                 nav.Configure("Settings", typeof(SettingsPage));
+                nav.Configure("LegislatorDetail", typeof(LegislatorPage));
 
                 return nav;
             });

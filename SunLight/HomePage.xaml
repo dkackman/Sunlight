@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="12,0,12,0"
-                  VerticalScrollBarVisibility="Auto">
+                  VerticalScrollBarVisibility="Auto" x:Name="root">
         <StackPanel>
             <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="{Binding CongressionalSession}"/>
             <Border x:Name="SettingsNeeded" DataContext="{Binding Settings, Source={StaticResource Locator}}"
@@ -28,6 +28,7 @@
                     Margin="0,12,0,0">
                 <Button.ContentTransitions>
                     <TransitionCollection>
+                        <EntranceThemeTransition/>
                         <ContentThemeTransition/>
                     </TransitionCollection>
                 </Button.ContentTransitions>
@@ -40,42 +41,44 @@
             </Button>
 
             <GridView SelectionMode="None" IsItemClickEnabled="False" Padding="0,12,0,0"
-                  ItemsSource="{Binding Legislators.results}"
-                  Header="Your Legislators">
+                  ItemsSource="{Binding Legislators.results}">
+                <GridView.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Your Legislators"/>
+                    </DataTemplate>
+                </GridView.HeaderTemplate>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="6" Padding="3">
-                            <StackPanel.Transitions>
-                                <TransitionCollection>
-                                    <EntranceThemeTransition/>
-                                </TransitionCollection>
-                            </StackPanel.Transitions>
-                            <Image Height="64" Width="64"
+                        <Button Command="{Binding Path=DataContext.SelectCommand, ElementName=root}"
+                                CommandParameter="{Binding}" Style="{StaticResource ButtonStyleNoHighlighting}">
+                            <StackPanel Margin="6" Padding="3">
+                                <Image Height="64" Width="64"
                                 Source="{Binding facebook_id, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='http://graph.facebook.com/{0}/picture'}"/>
-                            <TextBlock>
+                                <TextBlock>
                                  <Run Text="{Binding title}"/> <Run Text="{Binding first_name}"/> <Run Text="{Binding last_name}"/>
-                            </TextBlock>
-                            <TextBlock>
+                                </TextBlock>
+                                <TextBlock>
                                 <Run Text="{Binding chamber}"/> - <Run Text="{Binding party}"/> <Run Text="{Binding state_name}"/>
-                            </TextBlock>
-                            <TextBlock>
+                                </TextBlock>
+                                <TextBlock>
                                 <Run Text="{Binding office}"/>
-                            </TextBlock>
-                            <HyperlinkButton NavigateUri="{Binding phone, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='phone:{0}'}" 
+                                </TextBlock>
+                                <HyperlinkButton NavigateUri="{Binding phone, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='phone:{0}'}" 
                                              Content="{Binding phone}"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="ms-appx:///Assets/www.jpg" Width="32" Height="32"
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="ms-appx:///Assets/www.jpg" Width="32" Height="32"
                                        Visibility="{Binding website, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
+                                    <Image Margin="9,0,0,0" Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
                                        Visibility="{Binding oc_email, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
+                                    <Image Margin="9,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
                                        Visibility="{Binding twitter_id, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
+                                    <Image Margin="9,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
                                        Visibility="{Binding youtube_id, Converter={StaticResource NullToVisibilityConverter}}"/>
-                                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
+                                    <Image Margin="9,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
                                        Visibility="{Binding facebook_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Button>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
