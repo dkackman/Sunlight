@@ -7,14 +7,14 @@ namespace Sunlight
 {
     sealed class RemoteResult<T> where T : class
     {
-        private const int WAITING = 1;
         private const int NOT_WAITING = 0;
+        private const int WAITING = 1;
 
         private int _waiting = NOT_WAITING;
-
         private T _result;
-        private readonly T _notSetSentinal;
         private AggregateException _exceptions;
+
+        private readonly T _notSetSentinal;
         private readonly Func<Task<T>> _func;
         private readonly Action _continuation;
 
@@ -89,8 +89,9 @@ namespace Sunlight
                     {
                         Exit();
                     }
-                })
-                .ContinueWith((antecedent) => _continuation());
+
+                    _continuation();
+                });
             }
         }
 

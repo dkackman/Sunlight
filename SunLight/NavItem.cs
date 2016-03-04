@@ -25,6 +25,7 @@ namespace Sunlight
                     _isSelected = value;
                     RaisePropertyChanged("IsSelected");
                     RaisePropertyChanged("IsEnabled");
+                    Command.RaiseCanExecuteChanged();
                 }
             }
         }
