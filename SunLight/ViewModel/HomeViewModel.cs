@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Windows.System;
+using System.Threading.Tasks;
 
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Threading;
 
 using Sunlight.Model;
 using Sunlight.Service;
@@ -27,14 +25,22 @@ namespace Sunlight.ViewModel
             _upcomingBills = new RemoteResult<dynamic>(() => _congress.GetUpcomingBills(), () => RaisePropertiesChanged("UpcomingBills"), null);
             _legislators = new RemoteResult<dynamic>(() => _congress.FindLegislators(_settings.Location.Lat, _settings.Location.Long), () => RaisePropertiesChanged("Legislators"), null);
 
-            SelectCommand = new RelayCommand<object>(o =>
+            SelectCommand = new RelayCommand<dynamic>(o =>
             {
                 var vm = new DynamicViewModel(_navigationService, o);
+                string id = o.bioguide_id as string;
+
+                vm.AppendModel(new Dictionary<string, Func<Task<dynamic>>>()
+                    {
+                        { "committees", () => _congress.GetCommittees(id) },
+                        { "sponsored_bills", () => _congress.GetBills(id) }
+                    });
+
                 NavigateTo("LegislatorDetail", vm);
             });
         }
 
-        public RelayCommand<object> SelectCommand { get; private set; }
+        public RelayCommand<dynamic> SelectCommand { get; private set; }
 
         private readonly RemoteResult<dynamic> _upcomingBills;
         public dynamic UpcomingBills

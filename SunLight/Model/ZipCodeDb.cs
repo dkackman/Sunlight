@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace Sunlight.Model
 {
@@ -23,7 +17,7 @@ namespace Sunlight.Model
         {
             match = Regex.Escape(match);
 
-            List<ZipCode> list = new List<ZipCode>();
+            var list = new List<ZipCode>();
             foreach (Match m in Regex.Matches(_db, $"^{match}.*$", RegexOptions.Multiline))
             {
                 if (!string.IsNullOrEmpty(m.Value))

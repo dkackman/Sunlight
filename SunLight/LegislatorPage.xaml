@@ -7,7 +7,54 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="{Binding Model.first_name}"/>
-    </Grid>
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="6" Padding="3">
+            <Image Height="64" Width="64"
+                   Source="{Binding Model.facebook_id, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='http://graph.facebook.com/{0}/picture'}"/>
+            <TextBlock>
+                <Run Text="{Binding Model.title}"/> <Run Text="{Binding Model.first_name}"/> <Run Text="{Binding Model.last_name}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="{Binding Model.chamber}"/> - <Run Text="{Binding Model.party}"/> <Run Text="{Binding Model.state_name}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="{Binding Model.office}"/>
+            </TextBlock>
+            <HyperlinkButton NavigateUri="{Binding Model.phone, Converter={StaticResource PropertyToUrlConverter}, ConverterParameter='phone:{0}'}" 
+                             Content="{Binding Model.phone}"/>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="ms-appx:///Assets/www.jpg" Width="32" Height="32"
+                       Visibility="{Binding Model.website, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/url7.jpg" Width="32" Height="32"
+                       Visibility="{Binding Model.oc_email, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/twitter-logo.png" Width="32" Height="32"
+                       Visibility="{Binding Model.twitter_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/logo_youtube.png" Width="32" Height="32"
+                       Visibility="{Binding Model.youtube_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+                <Image Margin="9,0,0,0" Source="ms-appx:///Assets/facebook-logo-nuevo.png" Width="32" Height="32"
+                       Visibility="{Binding Model.facebook_id, Converter={StaticResource NullToVisibilityConverter}}"/>
+            </StackPanel>
+
+            <TextBlock Margin="0,12,0,0" Text="Committees" Style="{StaticResource CaptionTextBlockStyle}"/>
+            <ItemsControl ItemsSource="{Binding Model.committees.results}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="6,0,0,0" Text="{Binding name}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Margin="0,12,0,0" Text="Sponsored Bills" Style="{StaticResource CaptionTextBlockStyle}"/>
+            <ItemsControl ItemsSource="{Binding Model.sponsored_bills.results}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="6,0,0,0" Text="{Binding bill_id}"/> 
+                            <TextBlock Margin="6,0,0,0" TextTrimming="WordEllipsis" Text="{Binding official_title}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

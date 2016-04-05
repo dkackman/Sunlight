@@ -1,12 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-using Windows.System;
-
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Threading;
-
-using Sunlight.Model;
 using Sunlight.Service;
 
 namespace Sunlight.ViewModel
@@ -19,8 +15,21 @@ namespace Sunlight.ViewModel
             Model = model;
         }
 
-        public dynamic Model { get; private set; }
+        public dynamic Model {  get; private set; }
 
-        public string SomeText { get { return "dddd"; } }
+        public Task AppendModel(IDictionary<string, Func<Task<dynamic>>> functions)
+        {
+            var modelDictionary = Model as IDictionary<string, object>;
+
+            var tasks = from kvp in functions
+                        where !modelDictionary.ContainsKey(kvp.Key)
+                        select Task.Run(async () =>
+                        {
+                            var property = await kvp.Value();
+                            modelDictionary.Add(kvp.Key, property);
+                        });
+
+            return Task.WhenAll(tasks).ContinueWith(t => RaisePropertyChangedOnUI("Model"));
+        }
     }
 }

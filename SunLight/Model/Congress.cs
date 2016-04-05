@@ -92,6 +92,16 @@ namespace Sunlight.Model
             return await PackageResult(await _client.hearings.get(typeof(HttpResponseMessage), chamber: chamber));
         }
 
+        public async Task<dynamic> GetCommittees(string memberId)
+        {
+            return await _client.committees.get(member_ids: memberId);
+        }
+
+        public async Task<dynamic> GetBills(string sponsorId)
+        {
+            return await PackageResult(await _client.bills.get(typeof(HttpResponseMessage), sponsor_id: sponsorId));
+        }
+
         private static async Task<dynamic> PackageResult(HttpResponseMessage response)
         {
             if (!response.IsSuccessStatusCode)
